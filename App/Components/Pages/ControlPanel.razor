@@ -1,6 +1,8 @@
 ﻿@page "/control-panel"
+
 @layout Components.Layout.MainLayout
-@inherits Core.Components.Pages.PageBase
+@inherits Core.Components.Pages.BasePage
+@using Core.Utils
 
 <section class="workspace-canvas anim-control-panel" @onwheel="OnMouseScroll">
     <div class="widget widget-dashboard">
@@ -11,32 +13,57 @@
             <div class="widget" @onclick="OpenEncryptionHistory">
                 <span> Encryption history </span>
                 <div class="scrollable">
-                    <button class="widget widget-button"> This is an epic history </button>
-                    <button class="widget widget-button"> This is an epic history </button>
-                    <button class="widget widget-button"> This is an epic history </button>
-                    <button class="widget widget-button"> This is an epic history </button>
-                    <button class="widget widget-button"> This is an epic history </button>
-                    <button class="widget widget-button"> This is an epic history </button>
+                    @{
+                        var sequence = GetButtonsByType(Elements.Button.Type.EncryptionHistory);
+                        if (!sequence.Any())
+                        {
+                            <span> This is empty. </span>
+                        } else
+                        {
+                            foreach (var button in sequence)
+                            {
+                                <button class="widget widget-button" @onclick="() => OnButtonClicked(button.Type, button.Id)"> @button.Content </button>
+                            }
+                        }
+                    }
                 </div>
             </div>
             <div class="widget">
                 <span> Histograms </span>
                 <div class="scrollable">
-                    <button class="widget widget-button"> This is an epic histogram </button>
-                    <button class="widget widget-button"> This is an epic histogram </button>
-                    <button class="widget widget-button"> This is an epic histogram </button>
-                    <button class="widget widget-button"> This is an epic histogram </button>
-                    <button class="widget widget-button"> This is an epic histogram </button>
+                    @{
+                        sequence = GetButtonsByType(Elements.Button.Type.EncryptionHistory);
+                        if (!sequence.Any())
+                        {
+                            <span> This is empty. </span>
+                        }
+                        else
+                        {
+                            foreach (var button in sequence)
+                            {
+                                <button class="widget widget-button" @onclick="() => OnButtonClicked(button.Type, button.Id)"> @button.Content </button>
+                            }
+                        }
+                    }
                 </div>
             </div>
             <div class="widget">
                 <span> Algorithms </span>
                 <div class="scrollable">
-                    <button class="widget widget-button"> This is an epic algorithm </button>
-                    <button class="widget widget-button"> This is an epic algorithm </button>
-                    <button class="widget widget-button"> This is an epic algorithm </button>
-                    <button class="widget widget-button"> This is an epic algorithm </button>
-                    <button class="widget widget-button"> This is an epic algorithm </button>
+                    @{
+                        sequence = GetButtonsByType(Elements.Button.Type.EncryptionHistory);
+                        if (!sequence.Any())
+                        {
+                            <span> This is empty. </span>
+                        }
+                        else
+                        {
+                            foreach (var button in sequence)
+                            {
+                                <button class="widget widget-button" @onclick="() => OnButtonClicked(button.Type, button.Id)"> @button.Content </button>
+                            }
+                        }
+                    }
                 </div>
             </div>
         </div>

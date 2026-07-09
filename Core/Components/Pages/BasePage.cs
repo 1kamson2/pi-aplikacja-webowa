@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Components.Web;
 namespace Core.Components.Pages;
 
 
-public abstract partial class PageBase : ComponentBase
+public partial class BasePage : ComponentBase
 {
     [Inject]
-    protected NavigationManager NavigationManager { get; set; }
+    protected NavigationManager NavigationManager { get; set; } = default!;
 
     public required string Destination { get; init; }
 
-    public PageBase(string destination)
+    public BasePage(string destination)
     {
         Destination = destination;
     }
