@@ -1,0 +1,48 @@
+﻿@page "/control-panel"
+@layout Components.Layout.MainLayout
+@inherits Core.Components.Pages.PageBase
+
+<section class="workspace-canvas anim-control-panel" @onwheel="OnMouseScroll">
+    <div class="widget widget-dashboard">
+        <div class="widget-container">
+            <div class="widget" @onclick="SaveImage">
+                <span> Save Image </span>
+            </div>
+            <div class="widget" @onclick="OpenEncryptionHistory">
+                <span> Encryption history </span>
+                <div class="scrollable">
+                    <button class="widget widget-button"> This is an epic history </button>
+                    <button class="widget widget-button"> This is an epic history </button>
+                    <button class="widget widget-button"> This is an epic history </button>
+                    <button class="widget widget-button"> This is an epic history </button>
+                    <button class="widget widget-button"> This is an epic history </button>
+                    <button class="widget widget-button"> This is an epic history </button>
+                </div>
+            </div>
+            <div class="widget">
+                <span> Histograms </span>
+                <div class="scrollable">
+                    <button class="widget widget-button"> This is an epic histogram </button>
+                    <button class="widget widget-button"> This is an epic histogram </button>
+                    <button class="widget widget-button"> This is an epic histogram </button>
+                    <button class="widget widget-button"> This is an epic histogram </button>
+                    <button class="widget widget-button"> This is an epic histogram </button>
+                </div>
+            </div>
+            <div class="widget">
+                <span> Algorithms </span>
+                <div class="scrollable">
+                    <button class="widget widget-button"> This is an epic algorithm </button>
+                    <button class="widget widget-button"> This is an epic algorithm </button>
+                    <button class="widget widget-button"> This is an epic algorithm </button>
+                    <button class="widget widget-button"> This is an epic algorithm </button>
+                    <button class="widget widget-button"> This is an epic algorithm </button>
+                </div>
+            </div>
+        </div>
+        <div class="widget">
+            <span>Encrypted Image</span>
+            <small>(will display after hitting encrypt)</small>
+        </div>
+    </div>
+</section>

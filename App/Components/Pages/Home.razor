@@ -1,5 +1,14 @@
 ﻿@page "/"
+@layout Components.Layout.MainLayout
+@inherits Core.Components.Pages.PageBase
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
+<section class="workspace-canvas anim-home" @onwheel=@OnMouseScroll>
+    <div class="workspace-grid">
+        <div class="widget drag-and-drop-zone">
+                <span>Drag & Drop</span>
+        </div>
+        <div class="scroll-zone">
+            <p>Scroll down</p>
+        </div>
+    </div>
+</section>
