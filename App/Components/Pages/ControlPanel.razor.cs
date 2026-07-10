@@ -1,5 +1,4 @@
-using Core.Components.Pages;
-using Core.Utils;
+using Core.Components;
 
 namespace App.Components.Pages
 {
@@ -13,16 +12,29 @@ namespace App.Components.Pages
             { Elements.Button.Type.SaveImage, new() }
         };
 
+        private Elements.Button.Type _lastButtonClicked = Elements.Button.Type.None;
+        private bool _isPopupOpen = false;
+
         public IEnumerable<Elements.Button.Information> GetButtonsByType(Elements.Button.Type type) => _buttonMap.TryGetValue(type, out var buttons) ? buttons : new();
 
-        public ControlPanel() : base("/")
-        {
+        public ControlPanel() : base("/") { }
 
+        public void OpenPopup() => _isPopupOpen = true;
+        public void ClosePopup() => _isPopupOpen = false;
+
+        public void OnWidgetClicked(Elements.Button.Type type)
+        {
+            _lastButtonClicked = type;
+            OpenPopup();
         }
 
         public void OnButtonClicked(Elements.Button.Type type, int id)
         {
-            Console.WriteLine("Hello World");
+            _lastButtonClicked = type;
+            if (_lastButtonClicked == Elements.Button.Type.Close)
+            {
+                ClosePopup();
+            }
         }
 
         private void SaveImage() { }
