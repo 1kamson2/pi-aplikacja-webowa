@@ -1,11 +1,12 @@
 ﻿@page "/"
 @layout Components.Layout.MainLayout
-@inherits Core.Components.Pages.BasePage
+@inherits Core.Components.BasePage
 
 <section class="workspace-canvas anim-home" @onwheel=@OnMouseScroll>
     <div class="workspace-grid">
         <div class="widget drag-and-drop-zone">
                 <span>Drag & Drop</span>
+                <img class="icon" src="icons/drag&drop-icon.png"/>
         </div>
         <div class="scroll-zone">
             <p>Scroll down</p>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-namespace Core.Components.Pages;
+namespace Core.Components;
 
 
 public partial class BasePage : ComponentBase

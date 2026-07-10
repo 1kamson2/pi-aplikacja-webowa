@@ -1,4 +1,4 @@
-﻿namespace Core.Utils;
+﻿namespace Core.Components;
 
 public static class Elements
 {
@@ -6,7 +6,9 @@ public static class Elements
     {
         public enum Type
         {
-            SaveImage = 0,
+            None = 0,
+            Close,
+            SaveImage,
             EncryptionHistory,
             Histograms,
             Algorithms

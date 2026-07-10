@@ -1,23 +1,32 @@
 ﻿@page "/control-panel"
 
 @layout Components.Layout.MainLayout
-@inherits Core.Components.Pages.BasePage
-@using Core.Utils
+@inherits Core.Components.BasePage
+@using Core.Components
 
 <section class="workspace-canvas anim-control-panel" @onwheel="OnMouseScroll">
     <div class="widget widget-dashboard">
         <div class="widget-container">
-            <div class="widget" @onclick="SaveImage">
+            <div class="widget" @onclick="() => OnWidgetClicked(Elements.Button.Type.SaveImage)">
                 <span> Save Image </span>
+                @{
+                    if (_isPopupOpen)
+                    {
+                        <Popup OnCloseRequested="ClosePopup"/>
+                    }
+                }
+                <img class="icon" src="icons/save-icon.png" />
             </div>
             <div class="widget" @onclick="OpenEncryptionHistory">
                 <span> Encryption history </span>
                 <div class="scrollable">
                     @{
                         var sequence = GetButtonsByType(Elements.Button.Type.EncryptionHistory);
+
                         if (!sequence.Any())
                         {
-                            <span> This is empty. </span>
+                            <img class="icon" src="icons/encryption-icon.png" />
+
                         } else
                         {
                             foreach (var button in sequence)
@@ -26,16 +35,18 @@
                             }
                         }
                     }
+
                 </div>
             </div>
             <div class="widget">
                 <span> Histograms </span>
                 <div class="scrollable">
+
                     @{
-                        sequence = GetButtonsByType(Elements.Button.Type.EncryptionHistory);
+                        sequence = GetButtonsByType(Elements.Button.Type.Histograms);
                         if (!sequence.Any())
                         {
-                            <span> This is empty. </span>
+                            <img class="icon" src="icons/histogram-icon.png" />
                         }
                         else
                         {
@@ -51,10 +62,11 @@
                 <span> Algorithms </span>
                 <div class="scrollable">
                     @{
-                        sequence = GetButtonsByType(Elements.Button.Type.EncryptionHistory);
+                        sequence = GetButtonsByType(Elements.Button.Type.Algorithms);
                         if (!sequence.Any())
                         {
-                            <span> This is empty. </span>
+                            <img class="icon" src="icons/algorithm-icon.png"/>
+
                         }
                         else
                         {

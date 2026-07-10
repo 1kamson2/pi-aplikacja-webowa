@@ -1,0 +1,17 @@
+﻿<div class="widget popup">
+    <h1> This is a test</h1>
+    <button class="widget widget-button" @onclick="NotifyParentToClose"> Close </button>
+</div>
+
+
+@code {
+    [Parameter] public EventCallback OnCloseRequested { get; set; }
+
+    private async Task NotifyParentToClose()
+    {
+        if (OnCloseRequested.HasDelegate)
+        {
+            await OnCloseRequested.InvokeAsync();
+        }
+    }
+}
