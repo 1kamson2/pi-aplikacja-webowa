@@ -1,0 +1,9 @@
+﻿@layout Components.Layout.MainLayout;
+@using Core.Components;
+@inherits Core.Components.BaseWidget<WidgetPayload>;
+
+<div class="widget" @onclick=EmitSignal>
+    <div class="scrollable">
+        @Content
+    </div>
+</div>

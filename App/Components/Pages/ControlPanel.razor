@@ -1,87 +1,59 @@
 ﻿@page "/control-panel"
 
-@layout Components.Layout.MainLayout
-@inherits Core.Components.BasePage
-@using Core.Components
+@layout Components.Layout.MainLayout;
+@inherits Core.Components.BasePage;
+@using static Core.Components.WidgetType;
+@using static Core.Components.WidgetAction;
 
 <section class="workspace-canvas anim-control-panel" @onwheel="OnMouseScroll">
     <div class="widget widget-dashboard">
         <div class="widget-container">
-            <div class="widget" @onclick="() => OnWidgetClicked(Elements.Button.Type.SaveImage)">
-                <span> Save Image </span>
-                @{
-                    if (_isPopupOpen)
-                    {
-                        <Popup OnCloseRequested="ClosePopup"/>
-                    }
-                }
-                <img class="icon" src="icons/save-icon.png" />
-            </div>
-            <div class="widget" @onclick="OpenEncryptionHistory">
-                <span> Encryption history </span>
-                <div class="scrollable">
-                    @{
-                        var sequence = GetButtonsByType(Elements.Button.Type.EncryptionHistory);
-
-                        if (!sequence.Any())
-                        {
-                            <img class="icon" src="icons/encryption-icon.png" />
-
-                        } else
-                        {
-                            foreach (var button in sequence)
-                            {
-                                <button class="widget widget-button" @onclick="() => OnButtonClicked(button.Type, button.Id)"> @button.Content </button>
-                            }
-                        }
-                    }
-
-                </div>
-            </div>
-            <div class="widget">
-                <span> Histograms </span>
-                <div class="scrollable">
-
-                    @{
-                        sequence = GetButtonsByType(Elements.Button.Type.Histograms);
-                        if (!sequence.Any())
-                        {
-                            <img class="icon" src="icons/histogram-icon.png" />
-                        }
-                        else
-                        {
-                            foreach (var button in sequence)
-                            {
-                                <button class="widget widget-button" @onclick="() => OnButtonClicked(button.Type, button.Id)"> @button.Content </button>
-                            }
-                        }
-                    }
-                </div>
-            </div>
-            <div class="widget">
-                <span> Algorithms </span>
-                <div class="scrollable">
-                    @{
-                        sequence = GetButtonsByType(Elements.Button.Type.Algorithms);
-                        if (!sequence.Any())
-                        {
-                            <img class="icon" src="icons/algorithm-icon.png"/>
-
-                        }
-                        else
-                        {
-                            foreach (var button in sequence)
-                            {
-                                <button class="widget widget-button" @onclick="() => OnButtonClicked(button.Type, button.Id)"> @button.Content </button>
-                            }
-                        }
-                    }
-                </div>
-            </div>
+            <Widget InstanceType=SaveImage
+                    ActionType=OpenPopup
+                    ActionRequestedEvent=OnWidgetClicked>
+                <Content>
+                    <span> Zapisz obraz </span>
+                    <img class="icon" src="icons/save-icon.png" />
+                </Content>
+            </Widget>
+             <Widget InstanceType=EncryptionHistory
+                     ActionType=OpenPopup
+                     ActionRequestedEvent=OnWidgetClicked>
+                <Content>
+                    <span> Historia </span>
+                     <img class="icon" src="icons/encryption-icon.png" />
+                </Content>
+            </Widget>
+            <Widget InstanceType=Histograms
+                    ActionType=OpenPopup
+                    ActionRequestedEvent=OnWidgetClicked>
+                <Content>
+                    <span> Histogramy </span>
+                    <img class="icon" src="icons/histogram-icon.png" />
+                </Content>
+            </Widget>
+            <Widget InstanceType=Algorithms
+                    ActionType=OpenPopup
+                    ActionRequestedEvent=OnWidgetClicked>
+                <Content>
+                    <span> Algorytmy </span>
+                    <img class="icon" src="icons/algorithm-icon.png"/>
+                </Content>
+            </Widget>
         </div>
-        <div class="widget">
-            <span>Encrypted Image</span>
-            <small>(will display after hitting encrypt)</small>
-        </div>
+        <Widget InstanceType=EncryptedImage
+                ActionType=OpenPopup
+                ActionRequestedEvent=OnWidgetClicked>
+            <Content>
+                <span> Zaszyfruj obraz </span>
+                <small>(kliknij tutaj, aby rozpocząć szyfrowanie)</small>
+            </Content>
+        </Widget>
+        @{
+            if (_isPopupOpen)
+            {
+                <PopupWidget ActionRequestedEvent=OnWidgetClicked ButtonPushedEvent=OnButtonClicked/>
+            }
+        }
     </div>
 </section>

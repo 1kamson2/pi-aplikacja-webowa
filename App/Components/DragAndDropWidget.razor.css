@@ -1,0 +1,5 @@
+.drag-and-drop-zone {
+    width: 60%;
+    aspect-ratio: 1.4 / 1;
+    border-radius: var(--widget-radius-greater);
+}

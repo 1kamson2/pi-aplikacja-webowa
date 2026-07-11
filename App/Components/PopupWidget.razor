@@ -1,0 +1,16 @@
+﻿@layout Components.Layout.MainLayout;
+@inherits Components.Widget;
+@using static Core.Components.WidgetAction;
+
+<div class="widget popup">
+    <h1> Ten popup jest testowy</h1>
+    <span> Tutaj jest zawartość popupu</span>
+    <Button
+        ActionType=ClosePopup
+        Id=67
+        ActionRequestedEvent=RelayButtonPayload>
+        <Content>
+            Zamknij
+        </Content>
+    </Button>
+</div>
