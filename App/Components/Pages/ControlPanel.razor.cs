@@ -1,45 +1,46 @@
 using Core.Components;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using static Core.Components.WidgetAction;
+namespace App.Components.Pages;
 
-namespace App.Components.Pages
+public partial class ControlPanel : BasePage
 {
-    public partial class ControlPanel : BasePage
+    private bool _isPopupOpen = false;
+    public ControlPanel()
     {
-        private Dictionary<Elements.Button.Type, List<Elements.Button.Information>> _buttonMap = new()
+        Destination = "/";
+    }
+
+    public async Task OnWidgetClicked(WidgetPayload e)
+    {
+        switch (e.Action)
         {
-            { Elements.Button.Type.EncryptionHistory, new() },
-            { Elements.Button.Type.Algorithms, new() },
-            { Elements.Button.Type.Histograms, new() },
-            { Elements.Button.Type.SaveImage, new() }
-        };
+            case OpenPopup:
+                _isPopupOpen = true;
+                break;
+            case ClosePopup:
+                _isPopupOpen = false;
+                break;
 
-        private Elements.Button.Type _lastButtonClicked = Elements.Button.Type.None;
-        private bool _isPopupOpen = false;
-
-        public IEnumerable<Elements.Button.Information> GetButtonsByType(Elements.Button.Type type) => _buttonMap.TryGetValue(type, out var buttons) ? buttons : new();
-
-        public ControlPanel() : base("/") { }
-
-        public void OpenPopup() => _isPopupOpen = true;
-        public void ClosePopup() => _isPopupOpen = false;
-
-        public void OnWidgetClicked(Elements.Button.Type type)
-        {
-            _lastButtonClicked = type;
-            OpenPopup();
         }
+    }
 
-        public void OnButtonClicked(Elements.Button.Type type, int id)
+    public void OnButtonClicked(ButtonPayload e)
+    {
+        switch (e.Action)
         {
-            _lastButtonClicked = type;
-            if (_lastButtonClicked == Elements.Button.Type.Close)
-            {
-                ClosePopup();
-            }
+            case WidgetAction.Accept or WidgetAction.ClosePopup:
+                _isPopupOpen = false;
+                break;
         }
+    }
 
-        private void SaveImage() { }
-        private void OpenEncryptionHistory() { }
-        private void ViewHistograms() { }
-        private void SelectAlgorithmEntropy() { }
+    public override void OnMouseScroll(WheelEventArgs e)
+    {
+        if (e.DeltaY < 0)
+        {
+            NavigationManager.NavigateTo(Destination);
+        }
     }
 }
