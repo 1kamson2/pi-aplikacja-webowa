@@ -1,5 +1,54 @@
 .drag-and-drop-zone {
-    width: 60%;
-    aspect-ratio: 1.4 / 1;
+    width: 55%;
+    aspect-ratio: 1.7 / 1;
     border-radius: var(--widget-radius-greater);
+    position: relative;
+    border: 2px dashed #888;
+    padding: 1.5rem;
+    text-align: center;
+    transition: background-color .15s, border-color .15s;
+}
+
+    .drag-and-drop-zone:hover,
+    .drag-and-drop-zone:focus-within {
+        background-color: var(--widget-bg-color-hover);
+        border-color: var(--widget-border-color-hover);
+    }
+
+    .drag-and-drop-zone ::deep .drop-input {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 999;
+    }
+
+.drop-error {
+    color: #d98080;
+    margin-top: .5rem;
+}
+
+
+.drop-preview small {
+    display: block;
+    color: var(--widget-text-color-muted);
+}
+
+.drop-preview {
+    position: absolute;
+    inset: 0;
+}
+
+    .drop-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: inherit;
+    }
+
+.drag-and-drop-zone.has-image {
+    border-style: none;
+    padding: 0;
 }
