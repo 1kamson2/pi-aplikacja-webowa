@@ -1,0 +1,59 @@
+﻿@page "/control-panel"
+
+@layout Components.Layout.MainLayout;
+@inherits Core.Components.BasePage;
+@using static Core.Components.WidgetType;
+@using static Core.Components.WidgetAction;
+
+<section class="workspace-canvas anim-control-panel" @onwheel="OnMouseScroll">
+    <div class="widget widget-dashboard">
+        <div class="widget-container">
+            <Widget InstanceType=SaveImage
+                    ActionType=OpenPopup
+                    ActionRequestedEvent=OnWidgetClicked>
+                <Content>
+                    <span> Zapisz obraz </span>
+                    <img class="icon" src="icons/save-icon.png" />
+                </Content>
+            </Widget>
+             <Widget InstanceType=EncryptionHistory
+                     ActionType=OpenPopup
+                     ActionRequestedEvent=OnWidgetClicked>
+                <Content>
+                    <span> Historia </span>
+                     <img class="icon" src="icons/encryption-icon.png" />
+                </Content>
+            </Widget>
+            <Widget InstanceType=Histograms
+                    ActionType=OpenPopup
+                    ActionRequestedEvent=OnWidgetClicked>
+                <Content>
+                    <span> Histogramy </span>
+                    <img class="icon" src="icons/histogram-icon.png" />
+                </Content>
+            </Widget>
+            <Widget InstanceType=Algorithms
+                    ActionType=OpenPopup
+                    ActionRequestedEvent=OnWidgetClicked>
+                <Content>
+                    <span> Algorytmy </span>
+                    <img class="icon" src="icons/algorithm-icon.png"/>
+                </Content>
+            </Widget>
+        </div>
+        <Widget InstanceType=EncryptedImage
+                ActionType=OpenPopup
+                ActionRequestedEvent=OnWidgetClicked>
+            <Content>
+                <span> Zaszyfruj obraz </span>
+                <small>(kliknij tutaj, aby rozpocząć szyfrowanie)</small>
+            </Content>
+        </Widget>
+        @{
+            if (_isPopupOpen)
+            {
+                <PopupWidget ActionRequestedEvent=OnWidgetClicked ButtonPushedEvent=OnButtonClicked/>
+            }
+        }
+    </div>
+</section>

@@ -1,0 +1,38 @@
+.anim-control-panel {
+    animation: swipeInDown 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.widget-dashboard {
+    display: grid;
+    align-content: center;
+    grid-template-columns: 0.5fr 0.5fr;
+    aspect-ratio: 2 / 1;
+    gap: 25px;
+    min-width: 640px;
+    min-height: 640px;
+    width: 100%;
+    border-radius: var(--widget-radius-greater);
+    padding: 10px;
+    margin: 10px;
+}
+
+.widget.widget-dashboard,
+.widget.widget-dashboard:hover,
+.widget.widget-dashboard:active {
+    transform: none !important;
+    background-color: var(--widget-bg-color) !important;
+    border-color: var(--widget-border-color) !important;
+    cursor: default;
+}
+
+@keyframes swipeInDown {
+    0% {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

@@ -1,2 +1,1 @@
-# pi-aplikacja-webowa
-Aplikacja webowa
+# Projekt inżynierski

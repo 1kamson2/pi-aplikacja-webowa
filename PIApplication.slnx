@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="App/App.csproj">
+    <BuildDependency Project="Core/Core.csproj" />
+  </Project>
+  <Project Path="Core/Core.csproj" Id="c26fe172-943f-4fe2-8658-2feafda2c6e4" />
+</Solution>
