@@ -8,13 +8,15 @@
     --widget-radius-default: 24px;
     --widget-radius-greater: 48px;
     --widget-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    --app-bg-color: #0b0a0d;
-    --widget-bg-color: #141318;
-    --widget-bg-color-lighter: #1b1a20;
-    --widget-bg-color-hover: #22202a;
-    --widget-border-color: #211a30;
-    --widget-border-color-hover: #7b1fa2;
-    --widget-text-color: #e2e2e9;
+    --app-bg-color: #101114;
+    --widget-bg-color: #17181c;
+    --widget-bg-color-lighter: #1e1f24;
+    --widget-bg-color-hover: #25262c;
+    --widget-border-color: #2a2b32;
+    --widget-border-color-hover: #6a9bd8;
+    --widget-text-color: #d6d7dc;
+    --widget-text-color-muted: #8b8d96;
+    --widget-accent: #6a9bd8;
 }
 
 body {

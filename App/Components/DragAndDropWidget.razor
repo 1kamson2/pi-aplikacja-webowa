@@ -2,6 +2,22 @@
 @inherits Components.Widget;
 
 <div class="widget drag-and-drop-zone">
-    <span> Drag & Drop</span>
-    @Content
+    <InputFile OnChange="OnFileSelected" accept=".png,image/png" class="drop-input" />
+
+    @if (!string.IsNullOrEmpty(_error))
+    {
+        <div class="drop-error">@_error</div>
+    }
+
+    @if (ImageData is not null)
+    {
+        <div class="drop-preview">
+            <img src="data:image/png;base64,@Convert.ToBase64String(ImageData)" alt="@FileName" />
+            <small>@FileName (@(ImageData.Length / 1024) KB)</small>
+        </div>
+    } else
+    {
+        <span> Drag & Drop</span>
+        @Content
+    }
 </div>
