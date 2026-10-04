@@ -1,7 +1,8 @@
-using Core.Components;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace App.Components.Pages;
+
+using Shared;
 
 public partial class Home : BasePage
 {

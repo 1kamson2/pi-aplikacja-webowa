@@ -1,6 +1,6 @@
-using Core.Components;
-
 namespace App.Components;
+
+using Pages.Shared;
 
 public partial class Widget : BaseWidget<WidgetPayload>
 {

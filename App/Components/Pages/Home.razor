@@ -1,17 +1,16 @@
 ﻿@page "/"
 @layout Components.Layout.MainLayout
-@inherits Core.Components.BasePage
-@using static Core.Components.WidgetType
+@namespace App.Components.Pages
+@inherits Shared.BasePage
+@using static Shared.WidgetType
 
 <section class="workspace-canvas anim-home" @onwheel=@OnMouseScroll>
     <div class="workspace-grid">
-        <DragAndDropWidget
-            InstanceType=DragAndDrop>
+        <DragAndDropWidget InstanceType=DragAndDrop>
             <Content>
-                       <img class="icon" src="icons/drag&drop-icon.png" />
-
+                <img class="icon" src="icons/drag&drop-icon.png" />
             </Content>
-        </DragAndDropWidget>    
+        </DragAndDropWidget>
         <div class="scroll-zone">
             <p>(przewiń na dół)</p>
         </div>

@@ -1,19 +1,20 @@
-﻿@layout Components.Layout.MainLayout;
-@inherits Components.Widget;
+﻿@layout Components.Layout.MainLayout
+@namespace App.Components
+@inherits Widget
 
 <div class="widget drag-and-drop-zone">
     <InputFile OnChange="OnFileSelected" accept=".png,image/png" class="drop-input" />
 
-    @if (!string.IsNullOrEmpty(_error))
+    @if (hasError())
     {
-        <div class="drop-error">@_error</div>
+        <div class="drop-error">@FileLoadErrorMessage</div>
     }
 
-    @if (ImageData is not null)
+    @if (hasImage())
     {
         <div class="drop-preview">
             <img src="data:image/png;base64,@Convert.ToBase64String(ImageData)" alt="@FileName" />
-            <small>@FileName (@(ImageData.Length / 1024) KB)</small>
+            <small>@FileName (@String.Format("{0:0.00}", ImageSizeInMB()) MB)</small>
         </div>
     } else
     {

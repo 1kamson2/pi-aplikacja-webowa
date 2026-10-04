@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Core.Components;
+namespace App.Components.Pages.Shared;
 
 public struct ButtonPayload : IWidgetPayload
 {
@@ -10,7 +10,9 @@ public struct ButtonPayload : IWidgetPayload
     public RenderFragment? Content { get; set; }
 };
 
-public abstract partial class BaseButton<PayloadType> : BaseWidget<PayloadType> where PayloadType : IWidgetPayload, new()
+public abstract partial class BaseButton<PayloadType> : BaseWidget<PayloadType>
+    where PayloadType : IWidgetPayload, new()
 {
-    [Parameter] public required int Id { get; init; }
+    [Parameter]
+    public required int Id { get; init; }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-namespace Core.Components;
 
+namespace App.Components.Pages.Shared;
 
 public abstract partial class BasePage : ComponentBase
 {
@@ -11,5 +11,6 @@ public abstract partial class BasePage : ComponentBase
     [Parameter]
     public required string Destination { get; init; }
 
-    public virtual void OnMouseScroll(WheelEventArgs e) => NavigationManager.NavigateTo(Destination);
+    public virtual void OnMouseScroll(WheelEventArgs e) =>
+        NavigationManager.NavigateTo(Destination);
 }

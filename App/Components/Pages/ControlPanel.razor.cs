@@ -1,12 +1,14 @@
-using Core.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using static Core.Components.WidgetAction;
+
 namespace App.Components.Pages;
+
+using Shared;
 
 public partial class ControlPanel : BasePage
 {
     private bool _isPopupOpen = false;
+
     public ControlPanel()
     {
         Destination = "/";
@@ -16,13 +18,12 @@ public partial class ControlPanel : BasePage
     {
         switch (e.Action)
         {
-            case OpenPopup:
+            case WidgetAction.OpenPopup:
                 _isPopupOpen = true;
                 break;
-            case ClosePopup:
+            case WidgetAction.ClosePopup:
                 _isPopupOpen = false;
                 break;
-
         }
     }
 
