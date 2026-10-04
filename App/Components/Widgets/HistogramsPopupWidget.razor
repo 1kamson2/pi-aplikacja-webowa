@@ -1,0 +1,53 @@
+﻿@namespace App.Components.Widgets
+@inherits Widget
+@using Core.Histogram
+@using static Pages.Shared.WidgetAction
+
+<div class="widget popup">
+    <div class="popup-header">
+        <span class="popup-title">Histogramy</span>
+        <Button ActionType=ClosePopup
+                Id=67
+                ActionRequestedEvent=RelayButtonPayload>
+            <Content>
+                ✕
+            </Content>
+        </Button>
+    </div>
+
+    @if (HistogramSingleton.Entries.Count == 0)
+    {
+        <div class="widget-empty-container">
+            <p class="widget-empty">Brak histogramów</p>
+        </div>
+    }
+    else
+    {
+        <div class="widget-list">
+            @foreach (var entry in HistogramSingleton.Entries)
+            {
+                var max = Math.Max(1, new[] { entry.Red.Max(), entry.Green.Max(), entry.Blue.Max() }.Max());
+
+                <div class="widget-inner-item" @key="entry.Id">
+                    <svg class="histogram-chart" viewBox="0 0 256 100" preserveAspectRatio="none">
+                        <polyline class="ch-red" points="@Points(entry.Red, max)" />
+                        <polyline class="ch-green" points="@Points(entry.Green, max)" />
+                        <polyline class="ch-blue" points="@Points(entry.Blue, max)" />
+                    </svg>
+                    <div class="widget-meta">
+                        <strong>@entry.FileName</strong>
+                        <small>@entry.Source · @entry.CreatedAt.ToString("dd.MM.yyyy HH:mm")</small>
+                    </div>
+                    <button class="widget-btn widget-remove file-remove-inline" title="Usuń" @onclick="() => HistogramSingleton.Remove(entry.Id)" @onclick:stopPropagation="true">✕</button>
+                </div>
+            }
+        </div>
+    }
+
+    @if (HistogramSingleton.Entries.Count > 0)
+    {
+        <div class="widget-footer">
+            <button class="widget-btn widget-remove file-remove-inline" @onclick="HistogramSingleton.Clear">Wyczyść histogramy</button>
+        </div>
+    }
+</div>

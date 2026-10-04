@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Core.Components;
+namespace App.Components.Pages.Shared;
 
 public enum WidgetType
 {
-    None = 0,
-    Button,
+    Button = 0,
     DragAndDrop,
     SaveImage,
-    EncryptionHistory,
-    EncryptedImage,
+    History,
+    Encryption,
+    Decryption,
     Histograms,
-    Algorithms
+    Algorithms,
 }
 
 public enum WidgetAction
@@ -21,6 +21,8 @@ public enum WidgetAction
     Modify,
     OpenPopup,
     ClosePopup,
+    StartEncryption,
+    StartDecryption,
 }
 
 public interface IWidgetPayload
@@ -35,14 +37,22 @@ public struct WidgetPayload : IWidgetPayload
     public WidgetAction Action { get; set; }
 }
 
-
-public abstract partial class BaseWidget<PayloadType> : ComponentBase where PayloadType : IWidgetPayload, new()
+public abstract partial class BaseWidget<PayloadType> : ComponentBase
+    where PayloadType : IWidgetPayload, new()
 {
-    [Parameter] public EventCallback<PayloadType> ActionRequestedEvent { get; init; }
-    [Parameter] public required WidgetAction ActionType { get; init; }
-    [Parameter] public required WidgetType InstanceType { get; init; }
-    [Parameter] public RenderFragment? Content { get; init; }
+    [Parameter]
+    public required WidgetType InstanceType { get; init; }
+
+    [Parameter]
+    public required WidgetAction ActionType { get; init; }
+
+    [Parameter]
+    public EventCallback<PayloadType> ActionRequestedEvent { get; init; }
+
+    [Parameter]
+    public RenderFragment? Content { get; init; }
     public abstract PayloadType InitializePayload();
+
     protected virtual async Task EmitSignal()
     {
         if (ActionRequestedEvent.HasDelegate)
@@ -51,4 +61,3 @@ public abstract partial class BaseWidget<PayloadType> : ComponentBase where Payl
         }
     }
 }
-

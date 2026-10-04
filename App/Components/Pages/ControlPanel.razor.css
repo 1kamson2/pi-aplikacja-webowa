@@ -1,28 +1,68 @@
-.anim-control-panel {
-    animation: swipeInDown 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+﻿.anim-control-panel {
+    animation: swipeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.widget-dashboard {
+.widget.widget-dashboard {
+    --tile-size: auto;
     display: grid;
-    align-content: center;
-    grid-template-columns: 0.5fr 0.5fr;
-    aspect-ratio: 2 / 1;
-    gap: 25px;
-    min-width: 640px;
-    min-height: 640px;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: stretch;
+    align-content: stretch;
+    gap: 16px;
     width: 100%;
-    border-radius: var(--widget-radius-greater);
-    padding: 10px;
-    margin: 10px;
+    /* Kluczowe: Dopasowanie wysokości dokładnie do okna przeglądarki minus padding canvas (2.5rem góra + 2.5rem dół = 5rem) */
+    height: calc(100vh - 5rem);
+    max-height: 750px;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
 }
 
-.widget.widget-dashboard,
-.widget.widget-dashboard:hover,
-.widget.widget-dashboard:active {
-    transform: none !important;
-    background-color: var(--widget-bg-color) !important;
-    border-color: var(--widget-border-color) !important;
-    cursor: default;
+    .widget.widget-dashboard,
+    .widget.widget-dashboard:hover,
+    .widget.widget-dashboard:active {
+        transform: none !important;
+        cursor: default;
+    }
+
+        /* Kafelki wypełniają dokładnie wyznaczoną przestrzeń siatki bez wychodzenia poza nią */
+        .widget.widget-dashboard .widget {
+            aspect-ratio: auto !important;
+            height: 100% !important;
+            min-height: 0 !important;
+        }
+
+.widget-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    height: 100%;
+}
+
+.enc-dec-container {
+    display: grid;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    height: 100%;
+}
+
+@media (max-width: 900px) {
+    .widget.widget-dashboard {
+        grid-template-columns: minmax(0, 1fr);
+        height: auto;
+        max-height: none;
+        overflow-y: auto;
+        padding-right: 5px;
+    }
+
+        .widget.widget-dashboard .widget {
+            height: 150px !important;
+        }
 }
 
 @keyframes swipeInDown {

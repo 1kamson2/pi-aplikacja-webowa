@@ -1,0 +1,21 @@
+using Microsoft.AspNetCore.Components;
+
+namespace App.Components.Widgets;
+
+using Core.Algorithm;
+using Pages.Shared;
+
+public partial class AlgorithmPopupWidget : Widget
+{
+    [Parameter]
+    public EventCallback<ButtonPayload> ButtonPushedEvent { get; set; }
+    public AlgorithmSingleton AlgorithmSingleton { get; } = AlgorithmSingleton.Instance;
+
+    protected virtual async Task RelayButtonPayload(ButtonPayload e)
+    {
+        if (ButtonPushedEvent.HasDelegate)
+        {
+            await ButtonPushedEvent.InvokeAsync(e);
+        }
+    }
+}

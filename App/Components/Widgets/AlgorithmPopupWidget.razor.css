@@ -1,0 +1,8 @@
+.algorithm-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border: 1px solid var(--widget-border-color);
+    border-radius: 999px;
+    color: var(--widget-text-color-muted, #8b8d96);
+    white-space: nowrap;
+}

@@ -1,0 +1,9 @@
+﻿@namespace App.Components.Widgets
+@layout Components.Layout.MainLayout
+@inherits BaseWidget<WidgetPayload>;
+@using Core.History
+@using Pages.Shared
+
+<div class="widget"  @onclick=StartEncryption>
+        @Content
+</div>

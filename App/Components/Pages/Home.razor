@@ -1,19 +1,18 @@
 ﻿@page "/"
+@namespace App.Components.Pages
 @layout Components.Layout.MainLayout
-@inherits Core.Components.BasePage
-@using static Core.Components.WidgetType
+@inherits Shared.BasePage
 
-<section class="workspace-canvas anim-home" @onwheel=@OnMouseScroll>
+@using static Shared.WidgetType
+
+<section class="workspace-canvas anim-home" @onwheel=@OnMouseScroll tabindex="999" @onkeydown="OnKeyboardKeyClicked">
     <div class="workspace-grid">
-        <DragAndDropWidget
-            InstanceType=DragAndDrop>
+        <DragAndDropWidget InstanceType=DragAndDrop>
             <Content>
-                       <img class="icon" src="icons/drag&drop-icon.png" />
-
+                <img class="icon" src="icons/drag&drop-icon.png" />
+                <span style="font-size: 24px; font-weight: 400; color: var(--widget-text-color);">Przeciągnij i upuść obraz tutaj</span>
+                <small style="font-size: 17px; color: var(--widget-text-color-muted);">lub kliknij, aby wybrać plik</small>
             </Content>
-        </DragAndDropWidget>    
-        <div class="scroll-zone">
-            <p>(przewiń na dół)</p>
-        </div>
+        </DragAndDropWidget>
     </div>
 </section>
