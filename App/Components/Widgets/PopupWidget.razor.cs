@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace App.Components;
+namespace App.Components.Widgets;
 
 using Pages.Shared;
 

@@ -9,4 +9,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Algorithm\" />
+    <Folder Include="Histogram\" />
+    <Folder Include="History\" />
+    <Folder Include="Encryption\" />
+  </ItemGroup>
 </Project>

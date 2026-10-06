@@ -1,16 +1,16 @@
-﻿@layout Components.Layout.MainLayout
-@namespace App.Components
+﻿@namespace App.Components.Widgets
+@layout Components.Layout.MainLayout
 @inherits Widget
 
-<div class="widget drag-and-drop-zone">
+<div @oncontextmenu="OnFileDeleted" @oncontextmenu:preventDefault class="widget drag-and-drop-zone">
     <InputFile OnChange="OnFileSelected" accept=".png,image/png" class="drop-input" />
 
-    @if (hasError())
+    @if (HasError())
     {
         <div class="drop-error">@FileLoadErrorMessage</div>
     }
 
-    @if (hasImage())
+    @if (HasImage())
     {
         <div class="drop-preview">
             <img src="data:image/png;base64,@Convert.ToBase64String(ImageData)" alt="@FileName" />

@@ -18,4 +18,14 @@ public partial class Home : BasePage
             NavigationManager.NavigateTo(Destination);
         }
     }
+
+    public override void OnKeyboardKeyClicked(KeyboardEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case "ArrowDown":
+                NavigationManager.NavigateTo(Destination);
+                break;
+        }
+    }
 }

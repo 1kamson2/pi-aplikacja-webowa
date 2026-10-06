@@ -1,11 +1,12 @@
 ﻿@page "/control-panel"
-@layout Components.Layout.MainLayout
 @namespace App.Components.Pages
+@layout Components.Layout.MainLayout
 @inherits Shared.BasePage
+
 @using static Shared.WidgetAction
 @using static Shared.WidgetType
 
-<section class="workspace-canvas anim-control-panel" @onwheel="OnMouseScroll">
+<section class="workspace-canvas anim-control-panel" @onwheel="OnMouseScroll" tabindex="0" @onkeydown="OnKeyboardKeyClicked">
     <div class="widget widget-dashboard">
         <div class="widget-container">
             <Widget InstanceType=SaveImage

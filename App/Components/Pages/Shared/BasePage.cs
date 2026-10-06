@@ -13,4 +13,14 @@ public abstract partial class BasePage : ComponentBase
 
     public virtual void OnMouseScroll(WheelEventArgs e) =>
         NavigationManager.NavigateTo(Destination);
+
+    public virtual void OnKeyboardKeyClicked(KeyboardEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case "Esc":
+
+                break;
+        }
+    }
 }

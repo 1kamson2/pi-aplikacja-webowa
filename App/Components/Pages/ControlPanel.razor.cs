@@ -44,4 +44,14 @@ public partial class ControlPanel : BasePage
             NavigationManager.NavigateTo(Destination);
         }
     }
+
+    public override void OnKeyboardKeyClicked(KeyboardEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case "ArrowUp":
+                NavigationManager.NavigateTo(Destination);
+                break;
+        }
+    }
 }

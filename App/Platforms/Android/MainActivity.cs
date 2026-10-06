@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 
-namespace App
+namespace App.Platforms.Android
 {
     [Activity(
         Theme = "@style/Maui.SplashTheme",

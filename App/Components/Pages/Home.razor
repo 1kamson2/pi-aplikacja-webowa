@@ -1,10 +1,11 @@
 ﻿@page "/"
-@layout Components.Layout.MainLayout
 @namespace App.Components.Pages
+@layout Components.Layout.MainLayout
 @inherits Shared.BasePage
+
 @using static Shared.WidgetType
 
-<section class="workspace-canvas anim-home" @onwheel=@OnMouseScroll>
+<section class="workspace-canvas anim-home" @onwheel=@OnMouseScroll tabindex="999" @onkeydown="OnKeyboardKeyClicked">
     <div class="workspace-grid">
         <DragAndDropWidget InstanceType=DragAndDrop>
             <Content>

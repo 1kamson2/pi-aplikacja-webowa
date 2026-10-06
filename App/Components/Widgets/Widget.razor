@@ -1,7 +1,8 @@
-﻿@layout Components.Layout.MainLayout
-@namespace App.Components
-@using Pages.Shared
+﻿@namespace App.Components.Widgets
+@layout Components.Layout.MainLayout
 @inherits BaseWidget<WidgetPayload>;
+
+@using Pages.Shared
 
 <div class="widget" @onclick=EmitSignal>
     <div class="scrollable">
