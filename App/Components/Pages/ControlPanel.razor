@@ -9,14 +9,13 @@
 <section class="workspace-canvas anim-control-panel" @onwheel="OnMouseScroll" tabindex="0" @onkeydown="OnKeyboardKeyClicked">
     <div class="widget widget-dashboard">
         <div class="widget-container">
-            <Widget InstanceType=SaveImage
-                    ActionType=OpenPopup
+            <SaveImageWidget InstanceType=SaveImage
                     ActionRequestedEvent=OnWidgetClicked>
                 <Content>
                     <span> Zapisz obraz </span>
                     <img class="icon" src="icons/save-icon.png" />
                 </Content>
-            </Widget>
+            </SaveImageWidget>
             <Widget InstanceType=EncryptionHistory
                     ActionType=OpenPopup
                     ActionRequestedEvent=OnWidgetClicked>

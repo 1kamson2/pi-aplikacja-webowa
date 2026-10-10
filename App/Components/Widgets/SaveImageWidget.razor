@@ -1,0 +1,9 @@
+﻿@namespace App.Components.Widgets
+@layout Components.Layout.MainLayout
+@inherits BaseWidget<WidgetPayload>;
+
+@using Pages.Shared
+
+<div class="widget" @onclick=OnClickSaveImage>
+        @Content
+</div>

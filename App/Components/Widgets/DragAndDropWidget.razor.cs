@@ -15,7 +15,7 @@ public partial class DragAndDropWidget : Widget
     );
     public string? FileLoadErrorMessage { get; private set; }
     public string? FileName { get; private set; }
-    public byte[] ImageData { get; private set; } = Array.Empty<byte>();
+    public static byte[] ImageData { get; private set; } = Array.Empty<byte>();
 
     private bool HasError() => !string.IsNullOrEmpty(FileLoadErrorMessage);
 
