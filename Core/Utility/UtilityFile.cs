@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Core.Utility;
+﻿namespace Core.Utility;
 
 public static class UtilityFile
 {

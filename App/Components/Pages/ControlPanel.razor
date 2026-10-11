@@ -24,14 +24,14 @@
                     <img class="icon" src="icons/encryption-icon.png" />
                 </Content>
             </HistoryWidget>
-            <Widget InstanceType=Histograms
+            <HistogramsWidget InstanceType=Histograms
                     ActionType=OpenPopup
                     ActionRequestedEvent=OnWidgetClicked>
                 <Content>
                     <span> Histogramy </span>
                     <img class="icon" src="icons/histogram-icon.png" />
                 </Content>
-            </Widget>
+            </HistogramsWidget>
             <Widget InstanceType=Algorithms
                     ActionType=OpenPopup
                     ActionRequestedEvent=OnWidgetClicked>
@@ -56,6 +56,9 @@
                 {
                     case Shared.WidgetType.EncryptionHistory:
                         <HistoryPopupWidget ActionRequestedEvent=OnWidgetClicked ButtonPushedEvent=OnButtonClicked />
+                        break;
+                    case Shared.WidgetType.Histograms:
+                        <HistogramsPopupWidget ActionRequestedEvent=OnWidgetClicked ButtonPushedEvent=OnButtonClicked />
                         break;
                 }
             }

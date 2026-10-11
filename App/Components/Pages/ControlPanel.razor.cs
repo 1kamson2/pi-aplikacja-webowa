@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Components.Web;
 namespace App.Components.Pages;
 
 using Shared;
-using static Shared.WidgetType;
 using static Shared.WidgetAction;
+using static Shared.WidgetType;
 
 public partial class ControlPanel : BasePage
 {

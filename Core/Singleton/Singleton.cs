@@ -9,6 +9,7 @@ public abstract class Singleton<TSelf>
     where TSelf : Singleton<TSelf>, new()
 {
     protected Singleton() { }
+
     public static TSelf Instance { get; } = new TSelf();
     protected readonly object _lock = new();
 }
