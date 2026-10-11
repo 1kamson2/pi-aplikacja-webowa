@@ -16,14 +16,14 @@
                     <img class="icon" src="icons/save-icon.png" />
                 </Content>
             </SaveImageWidget>
-            <Widget InstanceType=EncryptionHistory
+            <HistoryWidget InstanceType=EncryptionHistory
                     ActionType=OpenPopup
                     ActionRequestedEvent=OnWidgetClicked>
                 <Content>
                     <span> Historia </span>
                     <img class="icon" src="icons/encryption-icon.png" />
                 </Content>
-            </Widget>
+            </HistoryWidget>
             <Widget InstanceType=Histograms
                     ActionType=OpenPopup
                     ActionRequestedEvent=OnWidgetClicked>
@@ -52,7 +52,12 @@
         @{
             if (_isPopupOpen)
             {
-                <PopupWidget ActionRequestedEvent=OnWidgetClicked ButtonPushedEvent=OnButtonClicked />
+                switch(_widgetType)
+                {
+                    case Shared.WidgetType.EncryptionHistory:
+                        <HistoryPopupWidget ActionRequestedEvent=OnWidgetClicked ButtonPushedEvent=OnButtonClicked />
+                        break;
+                }
             }
         }
     </div>

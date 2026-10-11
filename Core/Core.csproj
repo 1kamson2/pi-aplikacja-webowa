@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Algorithm\" />
     <Folder Include="Histogram\" />
-    <Folder Include="History\" />
     <Folder Include="Encryption\" />
   </ItemGroup>
 </Project>

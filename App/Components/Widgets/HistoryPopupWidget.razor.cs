@@ -4,7 +4,7 @@ namespace App.Components.Widgets;
 
 using Pages.Shared;
 
-public partial class PopupWidget : Widget
+public partial class HistoryPopupWidget : Widget
 {
     [Parameter]
     public EventCallback<ButtonPayload> ButtonPushedEvent { get; set; }

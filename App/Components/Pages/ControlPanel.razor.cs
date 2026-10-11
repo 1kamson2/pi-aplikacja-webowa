@@ -4,10 +4,13 @@ using Microsoft.AspNetCore.Components.Web;
 namespace App.Components.Pages;
 
 using Shared;
+using static Shared.WidgetType;
+using static Shared.WidgetAction;
 
 public partial class ControlPanel : BasePage
 {
     private bool _isPopupOpen = false;
+    private WidgetType? _widgetType = null;
 
     public ControlPanel()
     {
@@ -20,9 +23,11 @@ public partial class ControlPanel : BasePage
         {
             case WidgetAction.OpenPopup:
                 _isPopupOpen = true;
+                _widgetType = e.Type;
                 break;
             case WidgetAction.ClosePopup:
                 _isPopupOpen = false;
+                _widgetType = null;
                 break;
         }
     }

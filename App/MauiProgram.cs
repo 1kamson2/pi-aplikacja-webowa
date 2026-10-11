@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using Core.Utility;
 using Microsoft.Extensions.Logging;
 
 namespace App
@@ -21,6 +22,7 @@ namespace App
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
             builder.Logging.AddDebug();
+            DebugData.Apply();
 #endif
 
             return builder.Build();
