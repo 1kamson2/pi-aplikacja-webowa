@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Core.Algorithm;
 using Core.Histogram;
 using Core.History;
 
@@ -882,10 +883,55 @@ public static class DebugData
         }
     }
 
+    private static void AlgorithmSingletonTestData()
+    {
+        List<AlgorithmEntry> sampleEntries = new()
+        {
+            new AlgorithmEntry(
+                Id: Guid.NewGuid(),
+                Name: "AES-CBC",
+                Category: "Symetryczny",
+                Description: "Szyfr blokowy AES w trybie CBC z losowym wektorem inicjującym.",
+                KeySizeBits: 256,
+                IsImplemented: false
+            ),
+            new AlgorithmEntry(
+                Id: Guid.NewGuid(),
+                Name: "XOR",
+                Category: "Strumieniowy",
+                Description: "Prosty szyfr XOR z kluczem. Tylko do celów demonstracyjnych.",
+                KeySizeBits: 128,
+                IsImplemented: false
+            ),
+            new AlgorithmEntry(
+                Id: Guid.NewGuid(),
+                Name: "Arnold Cat Map",
+                Category: "Chaotyczny",
+                Description: "Permutacja pikseli przez odwzorowanie chaotyczne.",
+                KeySizeBits: 0,
+                IsImplemented: false
+            ),
+            new AlgorithmEntry(
+                Id: Guid.NewGuid(),
+                Name: "Logistic Map",
+                Category: "Chaotyczny",
+                Description: "Generator ciągu pseudolosowego oparty na odwzorowaniu logistycznym.",
+                KeySizeBits: 64,
+                IsImplemented: false
+            ),
+        };
+
+        foreach (var entry in sampleEntries)
+        {
+            AlgorithmSingleton.Instance.Add(entry);
+        }
+    }
+
     [Conditional("DEBUG")]
     public static void Apply()
     {
         HistorySingletonTestData();
         HistogramSingletonTestData();
+        AlgorithmSingletonTestData();
     }
 }

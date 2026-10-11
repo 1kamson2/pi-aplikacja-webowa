@@ -1,0 +1,50 @@
+@namespace App.Components.Widgets
+@inherits Widget
+@using Core.Algorithm
+@using static Pages.Shared.WidgetAction
+
+<div class="widget popup algorithm-popup">
+    @if (AlgorithmSingleton.Entries.Count == 0)
+    {
+        <p class="algorithm-empty">Brak algorytmów</p>
+    }
+    else
+    {
+        <div class="algorithm-list">
+            @foreach (var entry in AlgorithmSingleton.Entries)
+            {
+                <div class="algorithm-item" @key="entry.Id" title="@entry.Description">
+                    <div class="algorithm-meta">
+                        <strong>@entry.Name</strong>
+                        <small>
+                            @entry.Category
+                            @if (entry.KeySizeBits > 0)
+                            {
+                                <text> · klucz @entry.KeySizeBits bit</text>
+                            }
+                        </small>
+                    </div>
+                    @if (!entry.IsImplemented)
+                    {
+                        <span class="algorithm-badge">wkrótce</span>
+                    }
+                    <button class="algorithm-remove" title="Usuń" @onclick="() => AlgorithmSingleton.Remove(entry.Id)">✕</button>
+                </div>
+            }
+        </div>
+    }
+
+    <div class="algorithm-footer">
+        @if (AlgorithmSingleton.Entries.Count > 0)
+        {
+            <button @onclick="AlgorithmSingleton.Clear">Wyczyść algorytmy</button>
+        }
+        <Button ActionType=ClosePopup
+                Id=67
+                ActionRequestedEvent=RelayButtonPayload>
+            <Content>
+                Zamknij
+            </Content>
+        </Button>
+    </div>
+</div>
