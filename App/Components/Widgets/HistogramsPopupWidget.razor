@@ -3,38 +3,38 @@
 @using Core.Histogram
 @using static Pages.Shared.WidgetAction
 
-<div class="widget popup histogram-popup">
+<div class="widget popup">
     @if (HistogramSingleton.Entries.Count == 0)
     {
-        <p class="histogram-empty">Brak histogramów</p>
+        <p class="widget-empty">Brak histogramów</p>
     }
     else
     {
-        <div class="histogram-list">
+        <div class="widget-list">
             @foreach (var entry in HistogramSingleton.Entries)
             {
                 var max = Math.Max(1, new[] { entry.Red.Max(), entry.Green.Max(), entry.Blue.Max() }.Max());
 
-                <div class="histogram-item" @key="entry.Id">
+                <div class="widget-inner-item" @key="entry.Id">
                     <svg class="histogram-chart" viewBox="0 0 256 100" preserveAspectRatio="none">
                         <polyline class="ch-red" points="@Points(entry.Red, max)" />
                         <polyline class="ch-green" points="@Points(entry.Green, max)" />
                         <polyline class="ch-blue" points="@Points(entry.Blue, max)" />
                     </svg>
-                    <div class="histogram-meta">
+                    <div class="widget-meta">
                         <strong>@entry.FileName</strong>
                         <small>@entry.Source · @entry.CreatedAt.ToString("dd.MM.yyyy HH:mm")</small>
                     </div>
-                    <button class="histogram-remove" title="Usuń" @onclick="() => HistogramSingleton.Remove(entry.Id)">✕</button>
+                    <button class="widget-btn widget-remove" title="Usuń" @onclick="() => HistogramSingleton.Remove(entry.Id)">✕</button>
                 </div>
             }
         </div>
     }
 
-    <div class="histogram-footer">
+    <div class="widget-footer">
         @if (HistogramSingleton.Entries.Count > 0)
         {
-            <button @onclick="HistogramSingleton.Clear">Wyczyść histogramy</button>
+            <button class="widget-btn" @onclick="HistogramSingleton.Clear">Wyczyść histogramy</button>
         }
         <Button ActionType=ClosePopup
                 Id=67

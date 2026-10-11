@@ -4,32 +4,32 @@
 @using Core.History
 @using static Pages.Shared.WidgetAction
 
-<div class="widget popup history-popup">
+<div class="widget popup">
     @if (HistorySingleton.Entries.Count == 0)
     {
-        <p class="history-empty">Brak historii szyfrowania</p>
+        <p class="widget-empty">Brak historii szyfrowania</p>
     }
     else
     {
-        <div class="history-list">
+        <div class="widget-list">
             @foreach (var entry in HistorySingleton.Entries)
             {
-                <div class="history-item" @key="entry.Id">
+                <div class="widget-inner-item" @key="entry.Id">
                     <img src="data:image/png;base64,@Convert.ToBase64String(entry.EncryptedData)" alt="@entry.FileName" />
-                    <div class="history-meta">
+                    <div class="widget-meta">
                         <strong>@entry.FileName</strong>
                         <small>@entry.Algorithm · @entry.CreatedAt.ToString("dd.MM.yyyy HH:mm")</small>
                     </div>
-                    <button class="history-remove" title="Usuń" @onclick="() => HistorySingleton.Remove(entry.Id)">✕</button>
+                    <button class="widget-btn widget-remove" title="Usuń" @onclick="() => HistorySingleton.Remove(entry.Id)">✕</button>
                 </div>
             }
         </div>
     }
 
-    <div class="history-footer">
+    <div class="widget-footer">
         @if (HistorySingleton.Entries.Count > 0)
         {
-            <button @onclick="HistorySingleton.Clear">Wyczyść historię</button>
+            <button class="widget-btn" @onclick="HistorySingleton.Clear">Wyczyść historię</button>
         }
         <Button ActionType=ClosePopup
                 Id=67
