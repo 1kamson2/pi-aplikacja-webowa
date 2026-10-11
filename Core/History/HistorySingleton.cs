@@ -1,44 +1,57 @@
 ﻿namespace Core.History;
 
-public static class HistorySingleton
+using Core.Singleton;
+
+public record EncryptionEntry(
+    Guid Id,
+    DateTime CreatedAt,
+    string FileName,
+    string Algorithm,
+    byte[] OriginalData,
+    byte[] EncryptedData
+);
+
+public class HistorySingleton : Singleton<HistorySingleton>, ISingletonStore<EncryptionEntry>
 {
-    private static int MaxEntries = 20; 
-    private static List<EncryptionEntry> _entries = new();
-    private static readonly object _lock = new();
-
-    public static event Action? Changed;
-
-    public static IReadOnlyList<EncryptionEntry> Entries
+    public ushort MaxEntries { get; } = ushort.MaxValue;
+    private readonly List<EncryptionEntry> _entries = new();
+    public IReadOnlyList<EncryptionEntry> Entries
     {
         get
         {
             lock (_lock)
+            {
                 return _entries.ToList();
-        } 
+            }
+        }
     }
 
-    public static void Add(EncryptionEntry entry)
+    public void Add(EncryptionEntry entry)
     {
         lock (_lock)
         {
             _entries.Insert(0, entry);
             if (_entries.Count > MaxEntries)
+            {
                 _entries.RemoveAt(_entries.Count - 1);
+            }
         }
-        Changed?.Invoke();
     }
 
-    public static void Remove(Guid id)
+    public void Remove(Guid id)
     {
         lock (_lock)
+        {
             _entries.RemoveAll(e => e.Id == id);
-        Changed?.Invoke();
+        }
+        ;
     }
 
-    public static void Clear()
+    public void Clear()
     {
         lock (_lock)
+        {
             _entries.Clear();
-        Changed?.Invoke();
+        }
     }
 }

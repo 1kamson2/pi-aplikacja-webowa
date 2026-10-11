@@ -7,7 +7,7 @@ using Pages.Shared;
 public partial class SaveImageWidget : BaseWidget<WidgetPayload>
 {
     [Inject]
-    IJSRuntime JSRuntime { get; set; }
+    public required IJSRuntime JSRuntime { get; set; }
 
     public override WidgetPayload InitializePayload()
     {

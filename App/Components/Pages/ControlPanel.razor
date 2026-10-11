@@ -52,7 +52,7 @@
         @{
             if (_isPopupOpen)
             {
-                switch(_widgetType)
+                switch(_lastWidgetCallingPopup)
                 {
                     case Shared.WidgetType.EncryptionHistory:
                         <HistoryPopupWidget ActionRequestedEvent=OnWidgetClicked ButtonPushedEvent=OnButtonClicked />

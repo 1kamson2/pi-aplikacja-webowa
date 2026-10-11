@@ -82,7 +82,7 @@ public static class DebugData
 
         foreach (var entry in sampleEntries)
         {
-            HistorySingleton.Add(entry);
+            HistorySingleton.Instance.Add(entry);
         }
     }
 

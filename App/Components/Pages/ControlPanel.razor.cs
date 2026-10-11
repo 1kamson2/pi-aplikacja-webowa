@@ -10,7 +10,7 @@ using static Shared.WidgetAction;
 public partial class ControlPanel : BasePage
 {
     private bool _isPopupOpen = false;
-    private WidgetType? _widgetType = null;
+    private WidgetType? _lastWidgetCallingPopup = null;
 
     public ControlPanel()
     {
@@ -23,11 +23,11 @@ public partial class ControlPanel : BasePage
         {
             case WidgetAction.OpenPopup:
                 _isPopupOpen = true;
-                _widgetType = e.Type;
+                _lastWidgetCallingPopup = e.Type;
                 break;
             case WidgetAction.ClosePopup:
                 _isPopupOpen = false;
-                _widgetType = null;
+                _lastWidgetCallingPopup = null;
                 break;
         }
     }
@@ -44,6 +44,12 @@ public partial class ControlPanel : BasePage
 
     public override void OnMouseScroll(WheelEventArgs e)
     {
+        // Turn off scrolling when a popup is open, to avoid accidental navigation.
+        if (_isPopupOpen)
+        {
+            return;
+        }
+
         if (e.DeltaY < 0)
         {
             NavigationManager.NavigateTo(Destination);
@@ -52,6 +58,12 @@ public partial class ControlPanel : BasePage
 
     public override void OnKeyboardKeyClicked(KeyboardEventArgs e)
     {
+        // Turn off keyboard navigation when a popup is open, to avoid accidental navigation.
+        if (_isPopupOpen)
+        {
+            return;
+        }
+
         switch (e.Key)
         {
             case "ArrowUp":
