@@ -1,8 +1,11 @@
-using Core.Components;
+namespace App.Components.Widgets;
 
-namespace App.Components;
+using Core.History;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using Pages.Shared;
 
-public partial class Widget : BaseWidget<WidgetPayload>
+public partial class HistoryWidget : BaseWidget<WidgetPayload>
 {
     public override WidgetPayload InitializePayload()
     {

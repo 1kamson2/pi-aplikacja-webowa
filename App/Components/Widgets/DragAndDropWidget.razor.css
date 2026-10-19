@@ -1,0 +1,69 @@
+.drag-and-drop-zone {
+    width: 55%;
+    aspect-ratio: 1.7 / 1;
+    border-radius: var(--widget-radius-greater);
+    position: relative;
+    border: 1px solid var(--widget-border-color);
+    background: var(--widget-bg-color);
+    padding: 1.5rem;
+    text-align: center;
+    transition: var(--widget-transition);
+    box-shadow: var(--widget-subtle-glow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+    .drag-and-drop-zone:hover,
+    .drag-and-drop-zone:focus-within {
+        background: var(--widget-bg-color-hover);
+        border-color: var(--widget-border-color-hover);
+        box-shadow: var(--widget-hover-glow);
+    }
+
+    .drag-and-drop-zone ::deep .drop-input {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 999;
+    }
+
+.drop-preview {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--widget-bg-color-lighter);
+}
+
+    .drop-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: inherit;
+    }
+
+    .drop-preview small {
+        display: block;
+        color: var(--widget-text-color-muted);
+        font-size: 14px;
+        margin-top: 4px;
+    }
+
+.drag-and-drop-zone.has-image {
+    border-color: var(--widget-border-color);
+    padding: 0;
+}
+
+.drop-error {
+    color: #f87171;
+    font-size: 14px;
+    margin-top: 0.5rem;
+    font-weight: 400;
+}

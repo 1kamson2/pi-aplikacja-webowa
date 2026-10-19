@@ -1,0 +1,7 @@
+﻿@namespace App.Components.Widgets
+@layout Components.Layout.MainLayout
+@inherits BaseButton<ButtonPayload>
+
+@using Pages.Shared
+
+<button class="widget widget-btn" @onclick=EmitSignal> @Content </button>

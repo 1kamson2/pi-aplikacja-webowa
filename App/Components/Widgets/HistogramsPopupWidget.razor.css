@@ -1,0 +1,23 @@
+.histogram-chart {
+    width: 75%;
+    height: 100%;
+    background: var(--widget-bg-color);
+    border-radius: 4px;
+}
+
+    .histogram-chart polyline {
+        fill: none;
+        opacity: .85;
+    }
+
+    .histogram-chart .ch-red {
+        stroke: #d98080;
+    }
+
+    .histogram-chart .ch-green {
+        stroke: #5fb3a1;
+    }
+
+    .histogram-chart .ch-blue {
+        stroke: #6a9bd8;
+    }
