@@ -1,4 +1,5 @@
-﻿@namespace App.Components.Widgets
+@namespace App.Components.Widgets
+@layout Layout.MainLayout
 @inherits Widget
 @using Core.Histogram
 @using static Pages.Shared.WidgetAction
@@ -15,7 +16,7 @@
         </Button>
     </div>
 
-    @if (HistogramSingleton.Entries.Count == 0)
+    @if (!HasContent())
     {
         <div class="widget-empty-container">
             <p class="widget-empty">Brak histogramów</p>
@@ -26,25 +27,73 @@
         <div class="widget-list">
             @foreach (var entry in HistogramSingleton.Entries)
             {
-                var max = Math.Max(1, new[] { entry.Red.Max(), entry.Green.Max(), entry.Blue.Max() }.Max());
+                HistogramCounts histogramCounts = entry.HistogramCounts;
+                var mxRed = histogramCounts.Red.Max();
+                var mxGreen = histogramCounts.Green.Max();
+                var mxBlue = histogramCounts.Blue.Max();
+                var mx = Math.Max(mxRed, Math.Max(mxGreen, mxBlue));
 
-                <div class="widget-inner-item" @key="entry.Id">
-                    <svg class="histogram-chart" viewBox="0 0 256 100" preserveAspectRatio="none">
-                        <polyline class="ch-red" points="@Points(entry.Red, max)" />
-                        <polyline class="ch-green" points="@Points(entry.Green, max)" />
-                        <polyline class="ch-blue" points="@Points(entry.Blue, max)" />
-                    </svg>
-                    <div class="widget-meta">
-                        <strong>@entry.FileName</strong>
-                        <small>@entry.Source · @entry.CreatedAt.ToString("dd.MM.yyyy HH:mm")</small>
+                <div class="widget-inner-item histogram-card" @key="entry.ImageHash">
+                    <div class="histogram-chart-wrapper">
+                        <span class="histogram-y-title">Liczba pikseli</span>
+
+                        <div class="histogram-y-axis">
+                            <span>@mx</span>
+                            <span>@(mx * 3 / 4)</span>
+                            <span>@(mx / 2)</span>
+                            <span>@(mx * 1 / 4)</span>
+                            <span>0</span>
+                        </div>
+
+                        <svg class="histogram-chart" viewBox="0 0 256 100" preserveAspectRatio="none">
+                            <line class="hist-grid" x1="0" y1="0" x2="256" y2="0" />
+                            <line class="hist-grid" x1="0" y1="25" x2="256" y2="25" />
+                            <line class="hist-grid" x1="0" y1="50" x2="256" y2="50" />
+                            <line class="hist-grid" x1="0" y1="75" x2="256" y2="75" />
+
+                            <line class="hist-grid" x1="32" y1="0" x2="32" y2="100" />
+                            <line class="hist-grid" x1="64" y1="0" x2="64" y2="100" />
+                            <line class="hist-grid" x1="96" y1="0" x2="96" y2="100" />
+                            <line class="hist-grid" x1="128" y1="0" x2="128" y2="100" />
+                            <line class="hist-grid" x1="160" y1="0" x2="160" y2="100" />
+                            <line class="hist-grid" x1="192" y1="0" x2="192" y2="100" />
+                            <line class="hist-grid" x1="224" y1="0" x2="224" y2="100" />
+
+                            <line class="hist-axis" x1="0" y1="0" x2="0" y2="100" />
+                            <line class="hist-axis" x1="0" y1="100" x2="256" y2="100" />
+
+                            <polyline class="ch-red" points="@Points(histogramCounts.Red, mx)" />
+                            <polyline class="ch-green" points="@Points(histogramCounts.Green, mx)" />
+                            <polyline class="ch-blue" points="@Points(histogramCounts.Blue, mx)" />
+                        </svg>
+
+                        <div class="histogram-x-axis">
+                            <span>0</span><span>64</span><span>128</span><span>192</span><span>255</span>
+                        </div>
+                        <span class="histogram-x-title">Wartość kanału</span>
+
+                        <div class="histogram-channels-legend">
+                            <span class="leg-r">R</span>
+                            <span class="leg-g">G</span>
+                            <span class="leg-b">B</span>
+                        </div>
                     </div>
-                    <button class="widget-btn widget-remove file-remove-inline" title="Usuń" @onclick="() => HistogramSingleton.Remove(entry.Id)" @onclick:stopPropagation="true">✕</button>
+
+                    <div class="histogram-card-footer">
+                        <div class="widget-meta">
+                            <strong title="@entry.Filename">@entry.Filename</strong>
+                            <small>Źródło: @entry.Source</small>
+                        </div>
+                        <button class="widget-btn widget-remove file-remove-inline" title="Usuń" @onclick="() => HistogramSingleton.Remove(entry.ImageHash)" @onclick:stopPropagation="true">
+                            <span>✕</span>
+                        </button>
+                    </div>
                 </div>
             }
         </div>
     }
 
-    @if (HistogramSingleton.Entries.Count > 0)
+    @if (HasContent())
     {
         <div class="widget-footer">
             <button class="widget-btn widget-remove file-remove-inline" @onclick="HistogramSingleton.Clear">Wyczyść histogramy</button>

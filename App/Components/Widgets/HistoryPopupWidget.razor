@@ -1,7 +1,6 @@
 ﻿@namespace App.Components.Widgets
 @layout Layout.MainLayout
 @inherits Widget
-@using Core.History
 @using static Pages.Shared.WidgetAction
 
 <div class="widget popup">
@@ -16,7 +15,7 @@
         </Button>
     </div>
 
-    @if (HistorySingleton.Entries.Count == 0)
+    @if (!HasContent())
     {
         <div class="widget-empty-container">
             <p class="widget-empty">Brak historii szyfrowania</p>
@@ -27,19 +26,40 @@
         <div class="widget-list">
             @foreach (var entry in HistorySingleton.Entries)
             {
-                <div class="widget-inner-item" @key="entry.Id">
-                    <img src="data:image/png;base64,@Convert.ToBase64String(entry.EncryptedData)" alt="@entry.FileName" />
-                    <div class="widget-meta">
-                        <strong>@entry.FileName</strong>
-                        <small>@entry.Algorithm · @entry.CreatedAt.ToString("dd.MM.yyyy HH:mm")</small>
+                <div class="widget-inner-item history-card" @key="entry.ImageHash">
+                    <div class="history-encryption-flow-vertical">
+                        <div class="history-img-box">
+                            <img src="data:image/png;base64,@Convert.ToBase64String(entry.FiledataBlob ?? Array.Empty<byte>())" alt="Oryginał" />
+                            <span class="img-badge">Oryginał</span>
+                        </div>
+                        
+                        <div class="encryption-arrow-flow">
+                            <div class="flow-line"></div>
+                            <div class="flow-lock" title="Zaszyfrowano">🔒</div>
+                            <div class="flow-line"></div>
+                        </div>
+
+                        <div class="history-img-box encrypted">
+                            <img src="data:image/png;base64,@Convert.ToBase64String(entry.FiledataEncryptedBlob ?? Array.Empty<byte>())" alt="Zaszyfrowany" />
+                            <span class="img-badge encrypted">Zaszyfrowany</span>
+                        </div>
                     </div>
-                    <button class="widget-btn widget-remove file-remove-inline" title="Usuń" @onclick="() => HistorySingleton.Remove(entry.Id)" @onclick:stopPropagation="true">✕</button>
+
+                    <div class="history-card-footer">
+                        <div class="widget-meta">
+                            <strong title="@entry.Filename">@entry.Filename</strong>
+                            <small>Zabezpieczono pomyślnie</small>
+                        </div>
+                        <button class="widget-btn widget-remove file-remove-inline" title="Usuń" @onclick="() => HistorySingleton.Remove(entry.ImageHash)" @onclick:stopPropagation="true">
+                            <span>✕</span>
+                        </button>
+                    </div>
                 </div>
             }
         </div>
     }
 
-    @if (HistorySingleton.Entries.Count > 0)
+    @if (HasContent())
     {
         <div class="widget-footer">
             <button class="widget-btn widget-remove file-remove-inline" @onclick="HistorySingleton.Clear">Wyczyść historię</button>

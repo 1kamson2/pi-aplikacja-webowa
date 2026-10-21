@@ -2,8 +2,30 @@
 @layout Components.Layout.MainLayout
 @inherits BaseWidget<WidgetPayload>;
 @using Core.History
-@using Pages.Shared
+@using Pages.Shared;
 
-<div class="widget"  @onclick=EmitSignal>
-        @Content
+<div class="widget" @onclick=EmitSignal>
+    <div class="widget-header-group">
+        <span class="widget-title">Historia</span>
+        <span class="widget-desc">Przeglądaj historię szyfrowania obrazów.</span>
+    </div>
+
+    @if (!HasContent())
+    {
+        <div class="widget-body-content">
+            <div class="widget-status-group">
+                <span class="pulse-dot waiting-dot"></span>
+                <span class="status-label">Brak historii szyfrowania danych.</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="widget-body-content">
+            <div class="metric-group">
+                <span class="metric-value">@HistorySingleton.Entries.Count</span>
+                <span class="metric-label">wpisów w historii szyfrowania</span>
+            </div>
+        </div>
+    }
 </div>

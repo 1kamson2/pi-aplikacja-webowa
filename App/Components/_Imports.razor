@@ -8,3 +8,13 @@
 @using global::App
 @using global::App.Components.Widgets
 @using global::App.Components.Pages
+@using Core.History
+@using Core.Histogram
+@using Core.Algorithm
+@using Core.Image.Processing;
+@using Core.Services;
+@inject NotificationsService NotificationsService;
+@inject HistorySingleton HistorySingleton
+@inject AlgorithmSingleton AlgorithmSingleton
+@inject HistogramSingleton HistogramSingleton
+@inject PngProcessor PngProcessor

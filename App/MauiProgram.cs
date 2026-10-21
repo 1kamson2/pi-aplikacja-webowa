@@ -1,4 +1,12 @@
-﻿using CommunityToolkit.Maui;
+﻿using System.Diagnostics;
+using App.Components.Widgets;
+using CommunityToolkit.Maui;
+using Core.Algorithm;
+using Core.Database;
+using Core.Histogram;
+using Core.History;
+using Core.Image.Processing;
+using Core.Services;
 using Core.Utility;
 using Microsoft.Extensions.Logging;
 
@@ -16,14 +24,31 @@ namespace App
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
-
-            builder.Services.AddMauiBlazorWebView();
+            ApplicationPaths.ApplicationDatabasePath = Path.Combine(
+                FileSystem.AppDataDirectory,
+                "ApplicationRespository.db"
+            );
+            Debug.WriteLine(
+                $"[RELEASE] Created database at: {ApplicationPaths.ApplicationDatabasePath}"
+            );
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
             builder.Logging.AddDebug();
-            DebugData.Apply();
+            ApplicationPaths.ApplicationDatabasePath = Path.Combine(
+                FileSystem.AppDataDirectory,
+                "DebugApplicationRespository.db"
+            );
+            Debug.WriteLine(
+                $"[DEBUG] Created database at: {ApplicationPaths.ApplicationDatabasePath}"
+            );
 #endif
+            builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddSingleton<AlgorithmSingleton>();
+            builder.Services.AddSingleton<HistogramSingleton>();
+            builder.Services.AddSingleton<HistorySingleton>();
+            builder.Services.AddSingleton<PngProcessor>();
+            builder.Services.AddScoped<NotificationsService>();
 
             return builder.Build();
         }
