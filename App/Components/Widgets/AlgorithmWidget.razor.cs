@@ -1,0 +1,22 @@
+namespace App.Components.Widgets;
+
+using Core.Algorithm;
+using Core.History;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using Pages.Shared;
+
+public partial class AlgorithmWidget : BaseWidget<WidgetPayload>
+{
+    public AlgorithmSingleton AlgorithmSingleton { get; } = AlgorithmSingleton.Instance;
+
+    public override bool HasContent() => AlgorithmSingleton.Entries.Count > 0;
+
+    public override WidgetPayload InitializePayload()
+    {
+        WidgetPayload payload = new();
+        payload.Type = InstanceType;
+        payload.Action = ActionType;
+        return payload;
+    }
+}

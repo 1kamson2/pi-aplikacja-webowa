@@ -1,21 +1,20 @@
 ﻿namespace Core.History;
 
 using Core.Singleton;
+using Core.Utility;
 
-public record EncryptionEntry(
-    Guid Id,
-    DateTime CreatedAt,
-    string FileName,
-    string Algorithm,
-    byte[] OriginalData,
-    byte[] EncryptedData
-);
-
-public class HistorySingleton : Singleton<HistorySingleton>, ISingletonStore<EncryptionEntry>
+public class HistorySingleton : Singleton<HistorySingleton>, ISingletonStore<ImageMetadata>
 {
     public ushort MaxEntries { get; } = ushort.MaxValue;
-    private readonly List<EncryptionEntry> _entries = new();
-    public IReadOnlyList<EncryptionEntry> Entries
+    public HistoryModel Model { get; } = new HistoryModel();
+    private List<ImageMetadata> _entries = new();
+
+    protected override void Setup()
+    {
+        _entries = Model.ExecuteSelect("SelectAllEncryptionHistory");
+    }
+
+    public IReadOnlyList<ImageMetadata> Entries
     {
         get
         {
@@ -26,7 +25,7 @@ public class HistorySingleton : Singleton<HistorySingleton>, ISingletonStore<Enc
         }
     }
 
-    public void Add(EncryptionEntry entry)
+    public void Add(ImageMetadata entry)
     {
         lock (_lock)
         {
@@ -35,14 +34,15 @@ public class HistorySingleton : Singleton<HistorySingleton>, ISingletonStore<Enc
             {
                 _entries.RemoveAt(_entries.Count - 1);
             }
+            Model.ExecuteInsert("InsertEncryptionHistory", entry);
         }
     }
 
-    public void Remove(Guid id)
+    public void Remove(string hash)
     {
         lock (_lock)
         {
-            _entries.RemoveAll(e => e.Id == id);
+            _entries.RemoveAll(e => e.ImageHash == hash);
         }
         ;
     }

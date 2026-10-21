@@ -52,6 +52,7 @@ public abstract partial class BaseWidget<PayloadType> : ComponentBase
     [Parameter]
     public RenderFragment? Content { get; init; }
     public abstract PayloadType InitializePayload();
+    public abstract bool HasContent();
 
     protected virtual async Task EmitSignal()
     {

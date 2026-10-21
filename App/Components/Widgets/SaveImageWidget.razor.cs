@@ -17,18 +17,17 @@ public partial class SaveImageWidget : BaseWidget<WidgetPayload>
         return payload;
     }
 
+    public override bool HasContent() =>
+        DragAndDropWidget.FileMetadata?.FiledataEncryptedBlob is not null;
+
     public async Task OnClickSaveImage()
     {
-        var imageData = DragAndDropWidget.FileData;
-
+        var imageData = DragAndDropWidget.FileMetadata.FiledataEncryptedBlob;
         using var ms = new MemoryStream(imageData);
         var result = await CommunityToolkit.Maui.Storage.FileSaver.Default.SaveAsync(
             "",
             ms,
             CancellationToken.None
         );
-
-        //if (!result.IsSuccessful && result.Exception is not null)
-        //    throw result.Exception;
     }
 }

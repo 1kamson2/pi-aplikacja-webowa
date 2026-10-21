@@ -1,9 +1,28 @@
 ﻿@namespace App.Components.Widgets
 @layout Components.Layout.MainLayout
 @inherits BaseWidget<WidgetPayload>;
-
-@using Pages.Shared
+@using Pages.Shared;
 
 <div class="widget" @onclick=OnClickSaveImage>
-        @Content
+    <div class="widget-header-group">
+        <span class="widget-title">Zapisz obraz</span>
+        <span class="widget-desc">Eksportuj przetworzony plik bezpośrednio na dysk urządzenia.</span>
+    </div>
+
+    @if (!HasContent())
+    {
+        <div class="widget-body-content">
+            <div class="widget-status-group">
+                <span class="pulse-dot waiting-dot"></span>
+                <span class="status-label">Brak danych do zapisu</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="widget-body-content">
+            <div class="widget-status-group">
+            </div>
+        </div>
+    }
 </div>

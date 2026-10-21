@@ -9,7 +9,9 @@ public partial class HistoryPopupWidget : Widget
 {
     [Parameter]
     public EventCallback<ButtonPayload> ButtonPushedEvent { get; set; }
-    public HistorySingleton HistorySingleton => HistorySingleton.Instance;
+    public HistorySingleton HistorySingleton = HistorySingleton.Instance;
+
+    public override bool HasContent() => HistorySingleton.Entries.Count > 0;
 
     protected virtual async Task RelayButtonPayload(ButtonPayload e)
     {

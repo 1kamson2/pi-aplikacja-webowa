@@ -8,8 +8,9 @@ namespace Core.Singleton;
 public abstract class Singleton<TSelf>
     where TSelf : Singleton<TSelf>, new()
 {
-    protected Singleton() { }
+    protected Singleton() => Setup();
 
     public static TSelf Instance { get; } = new TSelf();
     protected readonly object _lock = new();
+    protected abstract void Setup();
 }

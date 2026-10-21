@@ -1,8 +1,103 @@
-.algorithm-badge {
-    font-size: 11px;
-    padding: 2px 8px;
-    border: 1px solid var(--widget-border-color);
-    border-radius: 999px;
-    color: var(--widget-text-color-muted, #8b8d96);
-    white-space: nowrap;
+.widget-inner-item.algorithm-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 20px !important;
+  padding: 24px !important;
+  width: 100% !important;
+  box-sizing: border-box;
+  cursor: pointer !important;
+  transition: var(--widget-transition);
+}
+
+.algorithm-card-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.algorithm-icon-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--widget-radius-lesser);
+  background: var(--app-bg-color);
+  border: 1px solid var(--widget-border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--widget-text-color-muted);
+}
+
+.algorithm-badges {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.algorithm-badge-coming {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.algorithm-badge-key {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--widget-text-color-muted);
+  border: 1px solid var(--widget-border-color);
+}
+
+.algorithm-description-text {
+  flex: 1;
+  font-size: 14px;
+  color: var(--widget-text-color-muted);
+  line-height: 1.4;
+  text-align: left;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.algorithm-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-top: 1px solid var(--widget-border-color);
+  padding-top: 16px;
+}
+
+.algorithm-card-footer .widget-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start !important;
+  gap: 4px;
+  min-width: 0;
+}
+
+.algorithm-card-footer .widget-meta strong {
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.01em;
+  color: var(--widget-text-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 450px;
+}
+
+.algorithm-card-footer .widget-meta small {
+  font-size: 13px;
+  color: var(--widget-text-color-muted);
 }

@@ -3,7 +3,7 @@
 using Core.Singleton;
 
 public record AlgorithmEntry(
-    Guid Id,
+    string Hash,
     string Name,
     string Category,
     string Description,
@@ -17,7 +17,14 @@ public sealed class AlgorithmSingleton
 {
     public ushort MaxEntries { get; } = ushort.MaxValue;
     private readonly List<AlgorithmEntry> _entries = new();
-    public AlgorithmEntry? ChosenAlgorithm { get; private set; }
+    public AlgorithmEntry? SelectedAlgorithm { get; private set; }
+
+    public string SelectedAlgorithmName() => SelectedAlgorithm?.Name ?? "Nie wybrano algorytmu";
+
+    protected override void Setup()
+    {
+        return;
+    }
 
     public IReadOnlyList<AlgorithmEntry> Entries
     {
@@ -28,10 +35,10 @@ public sealed class AlgorithmSingleton
         }
     }
 
-    public void SelectAlgorithm(Guid id)
+    public void SelectAlgorithm(string hash)
     {
         lock (_lock)
-            ChosenAlgorithm = _entries.FirstOrDefault(e => e.Id == id);
+            SelectedAlgorithm = _entries.FirstOrDefault(e => e.Hash == hash);
     }
 
     public void Add(AlgorithmEntry entry)
@@ -40,10 +47,10 @@ public sealed class AlgorithmSingleton
             _entries.Add(entry);
     }
 
-    public void Remove(Guid id)
+    public void Remove(string hash)
     {
         lock (_lock)
-            _entries.RemoveAll(e => e.Id == id);
+            _entries.RemoveAll(e => e.Hash == hash);
     }
 
     public void Clear()

@@ -1,9 +1,28 @@
 ﻿@namespace App.Components.Widgets
 @layout Components.Layout.MainLayout
 @inherits BaseWidget<WidgetPayload>;
-@using Core.History
-@using Pages.Shared
+@using Pages.Shared;
 
-<div class="widget"  @onclick=StartDecryption>
-        @Content
+<div class="widget" @onclick=StartDecryption>
+    <div class="widget-header-group">
+        <span class="widget-title">Odszyfruj obraz</span>
+        <span class="widget-desc">Odszyfruj obraz wybranym algorytmem.</span>
+    </div>
+
+    @if (!HasContent())
+    {
+        <div class="widget-body-content">
+            <div class="widget-status-group">
+                <span class="pulse-dot waiting-dot"></span>
+                <span class="status-label">Brak zaszyfrowanego bufora</span>
+            </div>
+            <span class="widget-badge">@AlgorithmSingleton.SelectedAlgorithmName()</span>
+        </div>
+    }
+    else
+    {
+        <div class="widget-body-content">
+            <span class="widget-badge">@AlgorithmSingleton.SelectedAlgorithmName()</span>
+        </div>
+    }
 </div>

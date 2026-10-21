@@ -1,9 +1,13 @@
 namespace App.Components.Widgets;
 
+using Core.Algorithm;
+using Core.Database;
+using Core.Histogram;
 using Core.History;
 using Core.Image.Processing;
 using Core.Utility;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Data.Sqlite;
 using Microsoft.JSInterop;
 using Pages.Shared;
 
@@ -13,7 +17,9 @@ public sealed partial class EncryptionWidget : BaseWidget<WidgetPayload>
     public static double[]? decryptionKey;
     public static uint width;
     public static uint height;
-    public static bool _ShouldEncrypt = true;
+    AlgorithmSingleton AlgorithmSingleton = AlgorithmSingleton.Instance;
+
+    public override bool HasContent() => DragAndDropWidget.FileMetadata?.FiledataBlob is not null;
 
     public override WidgetPayload InitializePayload()
     {
@@ -25,23 +31,15 @@ public sealed partial class EncryptionWidget : BaseWidget<WidgetPayload>
 
     public void StartEncryption()
     {
-        ImageMetadata imageMetadata = PngProcessor.Instance.Encrypt(
-            DragAndDropWidget.FileData,
-            true
-        );
-        FileMetadata fileEncoded = UtilityFile.EncodeFile(
-            imageMetadata.Pixels,
-            imageMetadata.Dimensions.Width,
-            imageMetadata.Dimensions.Height
-        );
-        if (fileEncoded.FileData is not null)
-        {
-            EncryptionWidget.decryptionKey = imageMetadata.Key.Value.Value;
-            EncryptionWidget.encryptedImagePixels = imageMetadata.Pixels;
-            EncryptionWidget.width = imageMetadata.Dimensions.Width;
-            EncryptionWidget.height = imageMetadata.Dimensions.Height;
-            EncryptionWidget._ShouldEncrypt = false;
-            DragAndDropWidget.FileData = fileEncoded.FileData;
-        }
+        FileMetadata fileMetadata = DragAndDropWidget.FileMetadata;
+        ImageMetadata encryptedImageMetadata = PngProcessor.Instance.Encrypt(fileMetadata);
+        FileMetadata encryptedFiledata = new FileMetadata.FileMetadataBuilder()
+            .FromImageMetadata(encryptedImageMetadata)
+            .Build();
+        DragAndDropWidget.FileMetadata = encryptedFiledata;
+        DragAndDropWidget.ImageMetadata = encryptedImageMetadata;
+        HistorySingleton.Instance.Add(encryptedImageMetadata);
+        HistogramSingleton.Instance.Add(encryptedImageMetadata);
+        DragAndDropWidget.ShowEncryptedImage = true;
     }
 }

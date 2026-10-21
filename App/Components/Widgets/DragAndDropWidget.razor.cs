@@ -14,24 +14,28 @@ public partial class DragAndDropWidget : Widget
         MaxFileSizeInMB
     );
     public static string? FileLoadErrorMessage { get; private set; }
-    public static string? FileName { get; private set; }
-    public static byte[] FileData { get; set; } = Array.Empty<byte>();
+    public static FileMetadata? FileMetadata { get; set; }
+    public static ImageMetadata? ImageMetadata { get; set; }
+    public static bool ShowEncryptedImage { get; set; } = false;
 
     private bool HasError() => !string.IsNullOrEmpty(FileLoadErrorMessage);
 
-    private bool HasImage() => FileData.Length > 0;
+    public override bool HasContent() =>
+        FileMetadata?.FiledataBlob?.Length > 0 || FileMetadata?.FiledataEncryptedBlob?.Length > 0;
+
+    private byte[] DisplayImage() =>
+        ShowEncryptedImage ? FileMetadata.FiledataEncryptedBlob : FileMetadata.FiledataBlob;
 
     private float ImageSizeInMB() =>
         UtilityFile.Convert(
             UtilityFile.SizeUnits.Byte,
             UtilityFile.SizeUnits.MegaByte,
-            FileData.Length
+            FileMetadata?.FiledataBlob?.Length ?? 0
         );
 
     private async Task OnFileDeleted(MouseEventArgs e)
     {
-        FileData = Array.Empty<byte>();
-        FileName = null;
+        FileMetadata = null;
         FileLoadErrorMessage = null;
         await Task.CompletedTask;
     }
@@ -50,8 +54,10 @@ public partial class DragAndDropWidget : Widget
         {
             using MemoryStream ms = new MemoryStream();
             await e.File.OpenReadStream((long)MaxFileSizeInBytes).CopyToAsync(ms);
-            FileData = ms.ToArray();
-            FileName = e.File.Name;
+            FileMetadata = new FileMetadata.FileMetadataBuilder()
+                .WithFilename(e.File.Name)
+                .WithFiledataBlob(ms.ToArray())
+                .Build();
         }
         catch (Exception ex) when (ex is ArgumentException or InvalidDataException)
         {
