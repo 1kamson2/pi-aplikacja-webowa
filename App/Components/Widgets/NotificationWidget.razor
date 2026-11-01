@@ -1,0 +1,75 @@
+@namespace App.Components.Widgets
+
+<button type="button"
+        class="notif-btn @(_open ? "open" : "")"
+        aria-label="Powiadomienia"
+        aria-expanded="@_open"
+        @onclick="Toggle">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 16v-4M12 8h.01"></path>
+    </svg>
+    @if (NotificationsService.Unread > 0)
+    {
+        <span class="notif-badge">@(NotificationsService.Unread > 9 ? "9+" : NotificationsService.Unread.ToString())</span>
+    }
+</button>
+
+@if (_open)
+{
+    <div class="notif-backdrop" @onclick="Close"></div>
+    <div class="notif-panel" role="dialog" aria-label="Powiadomienia">
+        <div class="notif-panel-header">
+            <span class="notif-panel-title">Powiadomienia</span>
+            @if (NotificationsService.History.Count > 0)
+            {
+                <button type="button" class="notif-clear" @onclick="NotificationsService.Clear">Wyczyść</button>
+            }
+        </div>
+        <div class="notif-list">
+            @if (NotificationsService.History.Count == 0)
+            {
+                <div class="notif-empty">Brak powiadomień</div>
+            }
+            else
+            {
+                @foreach (var n in NotificationsService.History)
+                {
+                    <div class="notif-item notif-@n.Type.ToString().ToLowerInvariant()" @key="n.Id">
+                        @((MarkupString)IconSvg(n.Type, "notif-item-icon"))
+                        <div class="toast-body">
+                            <div class="toast-title">@n.Title</div>
+                            @if (!string.IsNullOrWhiteSpace(n.Message))
+                            {
+                                <div class="toast-text">@n.Message</div>
+                            }
+                        </div>
+                        <span class="notif-time">@n.Time.ToString("HH:mm:ss")</span>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+
+<div class="toast-stack @(_open ? "hidden" : "")" aria-live="polite">
+    @foreach (var entry in _items)
+    {
+        var n = entry.Item;
+        <div class="toast toast-@n.Type.ToString().ToLowerInvariant() @(entry.Closing ? "closing" : "")"
+             role="status"
+             @key="n.Id"
+             @onclick="() => DismissAsync(entry)">
+            @((MarkupString)IconSvg(n.Type, "toast-icon"))
+            <div class="toast-body">
+                <div class="toast-title">@n.Title</div>
+                @if (!string.IsNullOrWhiteSpace(n.Message))
+                {
+                    <div class="toast-text">@n.Message</div>
+                }
+            </div>
+            <span class="toast-progress" style="animation-duration:@(n.DurationMs)ms"></span>
+        </div>
+    }
+</div>

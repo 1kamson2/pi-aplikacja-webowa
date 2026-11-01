@@ -4,6 +4,8 @@ using Pages.Shared;
 
 public partial class Widget : BaseWidget<WidgetPayload>
 {
+    public override bool HasContent() => true;
+
     public override WidgetPayload InitializePayload()
     {
         WidgetPayload payload = new();

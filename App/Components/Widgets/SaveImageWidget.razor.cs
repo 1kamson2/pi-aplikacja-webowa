@@ -3,6 +3,7 @@ namespace App.Components.Widgets;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Pages.Shared;
+using System.Diagnostics;
 
 public partial class SaveImageWidget : BaseWidget<WidgetPayload>
 {
@@ -17,18 +18,33 @@ public partial class SaveImageWidget : BaseWidget<WidgetPayload>
         return payload;
     }
 
+    public override bool HasContent() =>
+        DragAndDropWidget.FileMetadata?.FiledataEncryptedBlob is not null;
+
     public async Task OnClickSaveImage()
     {
-        var imageData = DragAndDropWidget.FileData;
+        if (!HasContent())
+        {
+            NotificationsService.Error("Nie udało się zapisać obrazu.", "Obraz musi zostać wcześniej zaszyfrowany.");
+            return;
+        }
 
-        using var ms = new MemoryStream(imageData);
-        var result = await CommunityToolkit.Maui.Storage.FileSaver.Default.SaveAsync(
-            "",
-            ms,
-            CancellationToken.None
-        );
+        // blob contains some data
+        byte[] filedataEncryptedBlob = DragAndDropWidget.FileMetadata?.FiledataEncryptedBlob!;
+        try
+        {
 
-        //if (!result.IsSuccessful && result.Exception is not null)
-        //    throw result.Exception;
+            using var ms = new MemoryStream(filedataEncryptedBlob);
+            var result = await CommunityToolkit.Maui.Storage.FileSaver.Default.SaveAsync(
+                "zaszyfrowany_obraz",
+                ms,
+                CancellationToken.None
+            );
+            NotificationsService.Success("Udało się zapisać obraz!");
+        } catch (Exception ex)
+        {
+            NotificationsService.Error("Błąd podczas zapisywania obrazu.");
+            Debug.WriteLine(ex.Message);
+        }
     }
 }

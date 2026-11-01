@@ -33,14 +33,14 @@
                     <img class="icon" src="icons/histogram-icon.png" />
                 </Content>
             </HistogramsWidget>
-            <Widget InstanceType=Algorithms
+            <AlgorithmWidget InstanceType=Algorithms
                     ActionType=OpenPopup
                     ActionRequestedEvent=OnWidgetClicked>
                 <Content>
                     <span> Algorytmy </span>
                     <img class="icon" src="icons/algorithm-icon.png" />
                 </Content>
-            </Widget>
+            </AlgorithmWidget>
         </div>
         <div class="enc-dec-container">
             <EncryptionWidget InstanceType=Encryption
@@ -48,7 +48,7 @@
                               ActionRequestedEvent=OnWidgetClicked>
                 <Content>
                     <span> Zaszyfruj obraz </span>
-                    @if (AlgorithmSingleton.Instance.ChosenAlgorithm is { } chosen)
+                    @if (AlgorithmSingleton.SelectedAlgorithm is { } chosen)
                     {
                         <small style="color: var(--widget-text-color-muted);">używając algorytmu <strong>@chosen.Name</strong></small>
                     }
@@ -60,7 +60,7 @@
                               ActionRequestedEvent=OnWidgetClicked>
                 <Content>
                     <span> Odszyfruj obraz </span>
-                    @if (AlgorithmSingleton.Instance.ChosenAlgorithm is { } chosen)
+                    @if (AlgorithmSingleton.SelectedAlgorithm is { } chosen)
                     {
                         <small style="color: var(--widget-text-color-muted);">używając algorytmu <strong>@chosen.Name</strong></small>
                     }

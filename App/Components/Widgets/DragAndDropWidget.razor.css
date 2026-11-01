@@ -1,14 +1,15 @@
 .drag-and-drop-zone {
     width: 55%;
     aspect-ratio: 1.7 / 1;
-    border-radius: var(--widget-radius-greater);
+    border-radius: var(--widget-radius-default);
     position: relative;
     border: 1px solid var(--widget-border-color);
-    background: var(--widget-bg-color);
+    background-color: var(--tile-bg);
+    background-image: radial-gradient(120% 90% at 100% 0%, rgba(123, 140, 255, 0.07) 0%, transparent 55%);
     padding: 1.5rem;
     text-align: center;
     transition: var(--widget-transition);
-    box-shadow: var(--widget-subtle-glow);
+    box-shadow: none;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -18,9 +19,8 @@
 
     .drag-and-drop-zone:hover,
     .drag-and-drop-zone:focus-within {
-        background: var(--widget-bg-color-hover);
         border-color: var(--widget-border-color-hover);
-        box-shadow: var(--widget-hover-glow);
+        box-shadow: none;
     }
 
     .drag-and-drop-zone ::deep .drop-input {
@@ -57,6 +57,7 @@
     }
 
 .drag-and-drop-zone.has-image {
+    border-style: solid;
     border-color: var(--widget-border-color);
     padding: 0;
 }
@@ -67,3 +68,76 @@
     margin-top: 0.5rem;
     font-weight: 400;
 }
+
+.drag-and-drop-zone > span {
+    font-size: clamp(20px, 1.8vw, 26px);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    color: var(--widget-text-color);
+}
+
+
+.drop-preview {
+    overflow: hidden;
+}
+
+.drop-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.drop-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .drop-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+        .drop-slide img.pixelated {
+            image-rendering: pixelated;
+        }
+
+.drop-tabs {
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    gap: 2px;
+    padding: 3px;
+    background: rgba(13, 15, 19, 0.85);
+    border: 1px solid var(--widget-border-color-hover);
+    border-radius: 999px;
+}
+
+.drop-tab {
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--widget-text-color-muted);
+    cursor: pointer;
+    transition: color 0.18s ease, background-color 0.18s ease;
+}
+
+    .drop-tab:hover {
+        color: var(--widget-text-color);
+    }
+
+    .drop-tab.active {
+        background: var(--surface-3);
+        color: var(--widget-text-color);
+    }

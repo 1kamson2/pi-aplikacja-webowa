@@ -4,6 +4,8 @@ using Pages.Shared;
 
 public partial class Button : BaseButton<ButtonPayload>
 {
+    public override bool HasContent() => true;
+
     public override ButtonPayload InitializePayload()
     {
         ButtonPayload payload = new();
