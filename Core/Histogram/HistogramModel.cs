@@ -88,6 +88,7 @@ public class HistogramModel : IDatabaseAccess<ImageMetadata>
                 .WithFiledataBlob((byte[])reader["filedata_blob"])
                 .WithFiledataEncryptedBlob((byte[])reader["filedata_encrypted_blob"])
                 .WithHasAlpha(Convert.ToBoolean(reader["has_alpha"]))
+                .WithEntropy(Convert.ToDouble(reader["entropy"]))
                 .Build();
             imageMetadataBuffer.Add(imageMetadata);
         }
@@ -118,7 +119,7 @@ public class HistogramModel : IDatabaseAccess<ImageMetadata>
                     "@filedata_encrypted_blob" => (object?)imageMetadata.FiledataEncryptedBlob
                         ?? DBNull.Value,
                     "@has_alpha" => imageMetadata.HasAlpha ? 1 : 0,
-                    "@entropy" => -1,
+                    "@entropy" => imageMetadata.Entropy,
                     _ => DBNull.Value,
                 },
             };

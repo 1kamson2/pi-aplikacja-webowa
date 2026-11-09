@@ -169,3 +169,8 @@
   font-size: 13px;
   color: var(--widget-text-color-muted);
 }
+
+.entropy-label {
+    display: block;
+    opacity: .8;
+}

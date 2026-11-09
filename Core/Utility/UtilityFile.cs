@@ -13,6 +13,9 @@ public static class ApplicationPaths
     public static string ApplicationDatabasePath { get; set; } = "";
 }
 
+/// <summary>
+/// ImageFormat defines common image formats that application handles.
+/// </summary>
 public enum ImageFormat
 {
     Unknown,
@@ -20,8 +23,17 @@ public enum ImageFormat
     Png,
 }
 
+/// <summary>
+/// Image dimensions.
+/// </summary>
+/// <param name="Width">Width of the image</param>
+/// <param name="Height">Height of the image</param>
 public readonly record struct ImageDimensions(uint Width, uint Height);
 
+/// <summary>
+/// Decryption key
+/// </summary>
+/// <param name="Value">Value of the decryption key - in this case array of doubles</param>
 public readonly record struct DecryptionKey(double[] Value);
 
 /// <summary>
@@ -29,9 +41,8 @@ public readonly record struct DecryptionKey(double[] Value);
 /// </summary>
 /// <param name="Filename">Filename</param>
 /// <param name="Path">Path of the file</param>
-/// <param name="Dimensions">Image dimensions (Width, Height)</param>
 /// <param name="FiledataBlob">Contents of the file before encryption - must be decoded</param>
-/// <param name="HasAlpha">If true image is RGBA</param>
+/// <param name="FiledataEncryptedBlob">Contents of the file after encryption - must be decoded</param>
 public class FileMetadata
 {
     public string? Filename { get; set; }
@@ -41,6 +52,9 @@ public class FileMetadata
 
     public FileMetadata() { }
 
+    /// <summary>
+    /// FileMetadataBuilder is a builder class for the FileMetadata
+    /// </summary>
     public class FileMetadataBuilder
     {
         private readonly FileMetadata _fileMetadata = new FileMetadata();
@@ -89,14 +103,15 @@ public class FileMetadata
 /// ImageMetadata defines metadata for the Image.
 /// </summary>
 /// <param name="ImageHash">Hashed fields of the Image</param>
-/// <param name="Filename">Filename</param>
-/// <param name="Path">Path of the file</param>
 /// <param name="Key">Decryption key for the image</param>
 /// <param name="ImageFormat">Image format (JPG, PNG)</param>
 /// <param name="Dimensions">Image dimensions (Width, Height)</param>
+/// <param name="Filename">Filename</param>
+/// <param name="HasAlpha">If true image is RGBA</param>
+/// <param name="Path">Path of the file</param>
 /// <param name="FiledataBlob">Contents of the file before encryption - must be decoded</param>
 /// <param name="FiledataEncryptedBlob">Contents of the file after encryption - must be encoded</param>
-/// <param name="HasAlpha">If true image is RGBA</param>
+/// <param name="Entropy">Entropy of the image</param>
 public sealed class ImageMetadata : FileMetadata
 {
     public string? ImageHash { get; private set; }
@@ -104,10 +119,13 @@ public sealed class ImageMetadata : FileMetadata
     public ImageFormat? ImageFormat { get; private set; }
     public ImageDimensions? Dimensions { get; private set; }
     public bool HasAlpha { get; private set; } = false;
-
+    public double Entropy { get; private set; } = 0;
     public ImageMetadata()
         : base() { }
 
+    /// <summary>
+    /// ImageMetadataBuilder is the builder class for the ImageMetadata
+    /// </summary>
     public class ImageMetadataBuilder
     {
         private readonly ImageMetadata _imageMetadata = new ImageMetadata();
@@ -188,6 +206,12 @@ public sealed class ImageMetadata : FileMetadata
             return this;
         }
 
+        public ImageMetadataBuilder WithEntropy(double entropy)
+        {
+            _imageMetadata.Entropy = entropy;
+            return this;
+        }
+
         public ImageMetadata Build()
         {
             string combinedFields =
@@ -209,7 +233,14 @@ public static class UtilityFile
         KiloByte = 1024,
         MegaByte = KiloByte * 1024,
     }
-
+    /// <summary>
+    /// Convert size from one unit to another.
+    /// </summary>
+    /// <param name="from">Current unit</param>
+    /// <param name="to">Target unit</param>
+    /// <param name="size">Size in current units</param>
+    /// <example>UtilityFile.Convert(UtilityFile.SizeUnits.KiloByte, UtilityFile.SizeUnits.MegaByte, 1024)</example>
+    /// <returns>The size in the target unit</returns>
     public static float Convert(SizeUnits from, SizeUnits to, float size)
     {
         float bytes = size * (float)from;

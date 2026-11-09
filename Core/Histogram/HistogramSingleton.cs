@@ -13,11 +13,39 @@ public struct HistogramCounts
     public int[] Red { get; set; } = new int[256];
     public int[] Green { get; set; } = new int[256];
     public int[] Blue { get; set; } = new int[256];
+    public double Entropy { get; set; } = 0;
 
     public HistogramCounts() { }
 
     public HistogramCounts(int[] red, int[] green, int[] blue) =>
         (Red, Green, Blue) = (red, green, blue);
+
+    public void EvaluateEntropy()
+    {
+        double sum = 0;
+        foreach (var channel in new[] { Red, Green, Blue })
+        {
+            double total = channel.Sum();
+            if (total == 0)
+            {
+                continue;
+            }
+
+            double h = 0;
+            foreach (var count in channel)
+            {
+                if (count == 0)
+                {
+                    continue;
+                }
+                double p = count / total;
+                h -= p * Math.Log2(p);
+            }
+            sum += h;
+        }
+        Entropy = sum / 3;
+    }
+
 
     public static HistogramCounts FromPixels(byte[] pixels)
     {
@@ -28,6 +56,7 @@ public struct HistogramCounts
             instance.Green[pixels[i + 1]]++;
             instance.Blue[pixels[i + 2]]++;
         }
+        instance.EvaluateEntropy();
         return instance;
     }
 }
