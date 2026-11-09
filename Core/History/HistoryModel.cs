@@ -118,6 +118,7 @@ public class HistoryModel : IDatabaseAccess<ImageMetadata>
                 "@filedata_encrypted_blob" => (object)imageMetadata.FiledataEncryptedBlob
                     ?? DBNull.Value,
                 "@has_alpha" => imageMetadata.HasAlpha ? 1 : 0,
+                "@entropy" => imageMetadata.Entropy,
                 _ => DBNull.Value,
             };
             command.Parameters.Add(param);
