@@ -83,6 +83,7 @@
                         <div class="widget-meta">
                             <strong title="@entry.Filename">@entry.Filename</strong>
                             <small>Źródło: @entry.Source</small>
+                            <small class="entropy-label">Entropia: @histogramCounts.Entropy.ToString("F4") bit</small>
                         </div>
                         <button class="widget-btn widget-remove file-remove-inline" title="Usuń" @onclick="() => HistogramSingleton.Remove(entry.ImageHash)" @onclick:stopPropagation="true">
                             <span>✕</span>
