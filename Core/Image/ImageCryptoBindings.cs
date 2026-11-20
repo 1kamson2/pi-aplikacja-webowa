@@ -4,14 +4,15 @@ namespace Core.Image;
 
 internal static class ImageCryptoBindings
 {
-    private const string Dll = "libimagecrypto.dll";
+    private const string LibraryName = "libimagecrypto";
 
     internal enum CryptoStatus : int
     {
         Success = 0,
         InvalidArgument = 1,
-        OutOfMemory = 2,
-        InternalError = 3,
+        InvalidKey = 2,
+        OutOfMemory = 3,
+        InternalError = 4,
     }
 
     internal enum CryptoPixelFormat : int
@@ -20,9 +21,13 @@ internal static class ImageCryptoBindings
         RGBA = 4,
     }
 
-    [DllImport(Dll, EntryPoint = "crypto_encrypt", CallingConvention = CallingConvention.Cdecl)]
-    internal static extern CryptoStatus Encrypt(
-        byte[] fileData,
+    [DllImport(
+        LibraryName,
+        EntryPoint = "crypto_encrypt_1",
+        CallingConvention = CallingConvention.Cdecl
+    )]
+    internal static extern CryptoStatus Encrypt_1(
+        byte[] pixels,
         UIntPtr size,
         uint width,
         uint height,
@@ -30,13 +35,31 @@ internal static class ImageCryptoBindings
         [Out] double[] key
     );
 
-    [DllImport(Dll, EntryPoint = "crypto_decrypt", CallingConvention = CallingConvention.Cdecl)]
-    internal static extern CryptoStatus Decrypt(
-        byte[] fileData,
+    [DllImport(
+        LibraryName,
+        EntryPoint = "crypto_decrypt_1",
+        CallingConvention = CallingConvention.Cdecl
+    )]
+    internal static extern CryptoStatus Decrypt_1(
+        byte[] pixels,
         UIntPtr size,
         uint width,
         uint height,
         CryptoPixelFormat format,
         [In] double[] key
     );
+
+    [DllImport(
+        LibraryName,
+        EntryPoint = "crypto_encrypt_2",
+        CallingConvention = CallingConvention.Cdecl
+    )]
+    internal static extern CryptoStatus Encrypt_2(byte[] pixels, UIntPtr size, [Out] double[] key);
+
+    [DllImport(
+        LibraryName,
+        EntryPoint = "crypto_decrypt_2",
+        CallingConvention = CallingConvention.Cdecl
+    )]
+    internal static extern CryptoStatus Decrypt_2(byte[] pixels, UIntPtr size, [In] double[] key);
 }

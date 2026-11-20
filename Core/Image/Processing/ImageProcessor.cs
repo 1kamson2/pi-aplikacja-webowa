@@ -1,4 +1,5 @@
-﻿using Core.Utility;
+﻿using Core.Algorithm;
+using Core.Utility;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using ImageSharp = SixLabors.ImageSharp.Image;
@@ -12,7 +13,7 @@ public abstract class ImageProcessor<TSelf>
     public abstract ImageFormat HasCorrectSignature(ReadOnlySpan<byte> bytes);
     public abstract ImageDimensions GetDimensions(ReadOnlySpan<byte> bytes);
 
-    public virtual ImageMetadata Encrypt(FileMetadata fileMetadata)
+    public virtual ImageMetadata Encrypt(FileMetadata fileMetadata, AlgorithmId algorithmId)
     {
         ImageFormat imageFormat = HasCorrectSignature(fileMetadata.FiledataBlob);
         if (imageFormat == ImageFormat.Unknown)
@@ -26,15 +27,29 @@ public abstract class ImageProcessor<TSelf>
         byte[] encryptedPixels = new byte[imgPixels.Length];
         img.CopyPixelDataTo(imgPixels);
         img.CopyPixelDataTo(encryptedPixels);
-
-        ImageCryptoBindings.CryptoStatus status = ImageCryptoBindings.Encrypt(
-            encryptedPixels,
-            new UIntPtr((ulong)encryptedPixels.Length),
-            (uint)img.Width,
-            (uint)img.Height,
-            ImageCryptoBindings.CryptoPixelFormat.RGBA,
-            key.Value
-        );
+        ImageCryptoBindings.CryptoStatus status;
+        switch (algorithmId)
+        {
+            case AlgorithmId.Algorithm1:
+                status = ImageCryptoBindings.Encrypt_1(
+                    encryptedPixels,
+                    new UIntPtr((ulong)encryptedPixels.Length),
+                    (uint)img.Width,
+                    (uint)img.Height,
+                    ImageCryptoBindings.CryptoPixelFormat.RGBA,
+                    key.Value
+                );
+                break;
+            case AlgorithmId.Algorithm2:
+                status = ImageCryptoBindings.Encrypt_2(
+                    encryptedPixels,
+                    new UIntPtr((ulong)encryptedPixels.Length),
+                    key.Value
+                );
+                break;
+            default:
+                throw new ArgumentException("Invalid algorithm ID.");
+        }
 
         using var imgEncrypted = ImageSharp.LoadPixelData<Rgba32>(
             encryptedPixels,
@@ -55,7 +70,11 @@ public abstract class ImageProcessor<TSelf>
             .Build();
     }
 
-    public ImageMetadata Decrypt(FileMetadata fileMetadata, DecryptionKey key)
+    public ImageMetadata Decrypt(
+        FileMetadata fileMetadata,
+        DecryptionKey key,
+        AlgorithmId algorithmId
+    )
     {
         ImageFormat imageFormat = HasCorrectSignature(fileMetadata.FiledataEncryptedBlob);
         if (imageFormat == ImageFormat.Unknown)
@@ -75,15 +94,29 @@ public abstract class ImageProcessor<TSelf>
         {
             throw new ArgumentException("Key must contain exactly 10 doubles.");
         }
-
-        ImageCryptoBindings.CryptoStatus status = ImageCryptoBindings.Decrypt(
-            imgPixels,
-            new UIntPtr((ulong)imgPixels.Length),
-            (uint)img.Width,
-            (uint)img.Height,
-            ImageCryptoBindings.CryptoPixelFormat.RGBA,
-            key.Value
-        );
+        ImageCryptoBindings.CryptoStatus status;
+        switch (algorithmId)
+        {
+            case AlgorithmId.Algorithm1:
+                status = ImageCryptoBindings.Decrypt_1(
+                    imgPixels,
+                    new UIntPtr((ulong)imgPixels.Length),
+                    (uint)img.Width,
+                    (uint)img.Height,
+                    ImageCryptoBindings.CryptoPixelFormat.RGBA,
+                    key.Value
+                );
+                break;
+            case AlgorithmId.Algorithm2:
+                status = ImageCryptoBindings.Decrypt_2(
+                    imgPixels,
+                    new UIntPtr((ulong)imgPixels.Length),
+                    key.Value
+                );
+                break;
+            default:
+                throw new ArgumentException("Invalid algorithm ID.");
+        }
 
         using var imgDecrypted = ImageSharp.LoadPixelData<Rgba32>(
             imgPixels,

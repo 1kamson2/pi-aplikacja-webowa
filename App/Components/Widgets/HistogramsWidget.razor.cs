@@ -8,7 +8,6 @@ using Pages.Shared;
 
 public partial class HistogramsWidget : BaseWidget<WidgetPayload>
 {
-
     public override bool HasContent() => HistogramSingleton.Entries.Count > 0;
 
     public override WidgetPayload InitializePayload()

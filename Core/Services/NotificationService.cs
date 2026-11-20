@@ -5,7 +5,7 @@ public enum NotificationType
     Info,
     Success,
     Warning,
-    Error
+    Error,
 }
 
 public sealed record Notification(
@@ -28,12 +28,17 @@ public sealed class NotificationsService
     public IReadOnlyList<Notification> History => _history;
     public int Unread { get; private set; }
 
-    public void Show(string title, string? message = null,
-        NotificationType type = NotificationType.Info, int durationMs = 2000)
+    public void Show(
+        string title,
+        string? message = null,
+        NotificationType type = NotificationType.Info,
+        int durationMs = 2000
+    )
     {
         var n = new Notification(Guid.NewGuid(), title, message, type, durationMs, DateTime.Now);
         _history.Insert(0, n);
-        if (_history.Count > MaxHistory) _history.RemoveAt(_history.Count - 1);
+        if (_history.Count > MaxHistory)
+            _history.RemoveAt(_history.Count - 1);
         Unread++;
         OnShow?.Invoke(n);
     }

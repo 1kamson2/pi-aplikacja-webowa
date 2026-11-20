@@ -9,7 +9,7 @@ namespace App.Components.Widgets;
 public partial class DragAndDropWidget : Widget
 {
     private const float MaxFileSizeInMB = 5;
-    private readonly float MaxFileSizeInBytes = UtilityFile.Convert(
+    private readonly float MaxFileSizeInBytes = UtilityFile.ConvertUnits(
         UtilityFile.SizeUnits.MegaByte,
         UtilityFile.SizeUnits.Byte,
         MaxFileSizeInMB
@@ -91,7 +91,7 @@ public partial class DragAndDropWidget : Widget
         FileMetadata?.FiledataBlob?.Length > 0 || FileMetadata?.FiledataEncryptedBlob?.Length > 0;
 
     private float ImageSizeInMB() =>
-        UtilityFile.Convert(
+        UtilityFile.ConvertUnits(
             UtilityFile.SizeUnits.Byte,
             UtilityFile.SizeUnits.MegaByte,
             FileMetadata?.FiledataBlob?.Length ?? 0

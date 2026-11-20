@@ -9,6 +9,7 @@ public partial class HistogramsPopupWidget : Widget
 {
     [Parameter]
     public EventCallback<ButtonPayload> ButtonPushedEvent { get; set; }
+
     public override bool HasContent() => HistogramSingleton.Entries.Count > 0;
 
     protected virtual async Task RelayButtonPayload(ButtonPayload e)

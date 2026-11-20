@@ -1,4 +1,5 @@
 ﻿namespace Core.Singleton;
+
 /// <summary>
 /// Storage for singleton
 /// </summary>

@@ -32,11 +32,23 @@ public sealed partial class EncryptionWidget : BaseWidget<WidgetPayload>
     {
         if (!HasContent())
         {
-            NotificationsService.Error("Brak obrazu do szyfrowania.", "Wybierz obraz, który chcesz zaszyfrować.");
+            NotificationsService.Error(
+                "Brak obrazu do szyfrowania.",
+                "Wybierz obraz, który chcesz zaszyfrować."
+            );
             return;
         }
         FileMetadata fileMetadata = DragAndDropWidget.FileMetadata!;
-        ImageMetadata encryptedImageMetadata = PngProcessor.Encrypt(fileMetadata);
+        if (AlgorithmSingleton.SelectedAlgorithm is null)
+        {
+            NotificationsService.Error("Nie wybrano algortymu.");
+            return;
+        }
+
+        ImageMetadata encryptedImageMetadata = PngProcessor.Encrypt(
+            fileMetadata,
+            AlgorithmSingleton.SelectedAlgorithm.Id
+        );
         FileMetadata encryptedFiledata = new FileMetadata.FileMetadataBuilder()
             .FromImageMetadata(encryptedImageMetadata)
             .Build();
