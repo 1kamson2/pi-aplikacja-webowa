@@ -25,20 +25,11 @@
         <div class="widget-list">
             @foreach (var entry in AlgorithmSingleton.Entries)
             {
-                <div class="widget-inner-item algorithm-card" @key="entry.Hash" title="@entry.Description" @onclick="() => AlgorithmSingleton.SelectAlgorithm(entry.Hash)">
+                var selected = AlgorithmSingleton.SelectedAlgorithm?.Name == entry.Name;
+                <div class="widget-inner-item algorithm-card @(selected ? "selected" : "")" @key="entry.Name" title="@entry.Description" @onclick="() => AlgorithmSingleton.SelectAlgorithm(entry.Name)">
                     <div class="algorithm-card-header-content">
                         <div class="algorithm-icon-badge">
-                            <svg class="alg-lock-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                        </div>
-                        <div class="algorithm-badges">
-                            @if (!entry.IsImplemented)
-                            {
-                                <span class="algorithm-badge-coming">wkrótce</span>
-                            }
-                            @if (entry.KeySizeBits > 0)
-                            {
-                                <span class="algorithm-badge-key">klucz @entry.KeySizeBits bit</span>
-                            }
+                            <svg class="alg-lock-icon" viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                         </div>
                     </div>
 
@@ -49,11 +40,7 @@
                     <div class="algorithm-card-footer">
                         <div class="widget-meta">
                             <strong>@entry.Name</strong>
-                            <small>@entry.Category</small>
                         </div>
-                        <button class="widget-btn widget-remove file-remove-inline" title="Usuń" @onclick="() => AlgorithmSingleton.Remove(entry.Hash)" @onclick:stopPropagation="true">
-                            <span>✕</span>
-                        </button>
                     </div>
 
                 </div>

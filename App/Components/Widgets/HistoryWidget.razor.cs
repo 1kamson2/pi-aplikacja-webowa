@@ -7,7 +7,6 @@ using Pages.Shared;
 
 public partial class HistoryWidget : BaseWidget<WidgetPayload>
 {
-
     public override bool HasContent() => HistorySingleton.Entries.Count > 0;
 
     public override WidgetPayload InitializePayload()

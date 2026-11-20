@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Metadata;
 using SixLabors.ImageSharp.PixelFormats;
 
 namespace Core.Utility;
@@ -120,6 +121,7 @@ public sealed class ImageMetadata : FileMetadata
     public ImageDimensions? Dimensions { get; private set; }
     public bool HasAlpha { get; private set; } = false;
     public double Entropy { get; private set; } = 0;
+
     public ImageMetadata()
         : base() { }
 
@@ -219,7 +221,13 @@ public sealed class ImageMetadata : FileMetadata
             using var md5 = MD5.Create();
             byte[] inputBytes = Encoding.UTF8.GetBytes(combinedFields);
             byte[] hashBytes = md5.ComputeHash(inputBytes);
-            _imageMetadata.ImageHash = Convert.ToHexString(hashBytes).ToLowerInvariant();
+            _imageMetadata.ImageHash = UtilityFile.MD5Hash(
+                _imageMetadata.Filename,
+                _imageMetadata.ImageFormat,
+                _imageMetadata.Dimensions,
+                _imageMetadata.HasAlpha,
+                _imageMetadata.FiledataEncryptedBlob ?? Array.Empty<byte>()
+            );
             return _imageMetadata;
         }
     }
@@ -233,6 +241,7 @@ public static class UtilityFile
         KiloByte = 1024,
         MegaByte = KiloByte * 1024,
     }
+
     /// <summary>
     /// Convert size from one unit to another.
     /// </summary>
@@ -241,9 +250,25 @@ public static class UtilityFile
     /// <param name="size">Size in current units</param>
     /// <example>UtilityFile.Convert(UtilityFile.SizeUnits.KiloByte, UtilityFile.SizeUnits.MegaByte, 1024)</example>
     /// <returns>The size in the target unit</returns>
-    public static float Convert(SizeUnits from, SizeUnits to, float size)
+    public static float ConvertUnits(SizeUnits from, SizeUnits to, float size)
     {
         float bytes = size * (float)from;
         return bytes / (float)to;
+    }
+
+    public static string MD5Hash(
+        string? filename,
+        ImageFormat? imageFormat,
+        ImageDimensions? dimensions,
+        bool hasAlpha,
+        byte[] filedataEncryptedBlob
+    )
+    {
+        string combinedFields =
+            $"{filename}|{imageFormat}|{dimensions}|{hasAlpha}|{filedataEncryptedBlob}";
+        using var md5 = MD5.Create();
+        byte[] inputBytes = Encoding.UTF8.GetBytes(combinedFields);
+        byte[] hashBytes = md5.ComputeHash(inputBytes);
+        return Convert.ToHexString(hashBytes).ToLowerInvariant();
     }
 }

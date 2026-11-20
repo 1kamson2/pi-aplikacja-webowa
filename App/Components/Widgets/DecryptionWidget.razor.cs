@@ -33,9 +33,16 @@ public sealed partial class DecryptionWidget : BaseWidget<WidgetPayload>
             return;
         }
 
+        if (AlgorithmSingleton.SelectedAlgorithm is null)
+        {
+            NotificationsService.Error("Nie wybrano algortymu.");
+            return;
+        }
+
         ImageMetadata imageMetadata = PngProcessor.Decrypt(
             DragAndDropWidget.FileMetadata,
-            DragAndDropWidget.ImageMetadata.Key.Value!
+            DragAndDropWidget.ImageMetadata.Key.Value!,
+            AlgorithmSingleton.SelectedAlgorithm.Id!
         );
         bool successFiledata = DragAndDropWidget.ChangeFileMetadata(
             new FileMetadata.FileMetadataBuilder().FromImageMetadata(imageMetadata).Build()

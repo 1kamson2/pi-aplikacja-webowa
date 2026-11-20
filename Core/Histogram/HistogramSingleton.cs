@@ -46,7 +46,6 @@ public struct HistogramCounts
         Entropy = sum / 3;
     }
 
-
     public static HistogramCounts FromPixels(byte[] pixels)
     {
         HistogramCounts instance = new HistogramCounts();
@@ -100,8 +99,6 @@ public class HistogramSingleton : Singleton<HistogramSingleton>, ISingletonStore
         HistogramEntry EncryptedImage
     ) FromImageMetadataToHistogramEntry(ImageMetadata imageMetadata)
     {
-        string imageHash = imageMetadata.ImageHash;
-
         string originalFilename = imageMetadata.Filename;
         string encodedFilename = $"encoded-{imageMetadata.Filename}";
 
@@ -119,9 +116,23 @@ public class HistogramSingleton : Singleton<HistogramSingleton>, ISingletonStore
         HistogramCounts originalCounts = HistogramCounts.FromPixels(originalPixels);
         HistogramCounts encodedCounts = HistogramCounts.FromPixels(encodedPixels);
 
+        string originalImageHash = UtilityFile.MD5Hash(
+            originalFilename,
+            imageMetadata.ImageFormat,
+            imageMetadata.Dimensions,
+            imageMetadata.HasAlpha,
+            imageMetadata.FiledataBlob
+        );
+        string encodedImageHash = UtilityFile.MD5Hash(
+            encodedFilename,
+            imageMetadata.ImageFormat,
+            imageMetadata.Dimensions,
+            imageMetadata.HasAlpha,
+            imageMetadata.FiledataEncryptedBlob
+        );
         return (
-            new(imageHash, originalFilename, source, originalCounts),
-            new(imageHash, encodedFilename, source, encodedCounts)
+            new(originalImageHash, originalFilename, source, originalCounts),
+            new(encodedImageHash, encodedFilename, source, encodedCounts)
         );
     }
 
