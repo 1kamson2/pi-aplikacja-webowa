@@ -12,6 +12,12 @@ public partial class HistoryPopupWidget : Widget
 
     public override bool HasContent() => HistorySingleton.Entries.Count > 0;
 
+    public void TryRemove(string hash)
+    {
+        if (HistorySingleton.Remove(hash))
+            NotificationsService.Info("Usunięto historię.");
+    }
+
     protected virtual async Task RelayButtonPayload(ButtonPayload e)
     {
         if (ButtonPushedEvent.HasDelegate)

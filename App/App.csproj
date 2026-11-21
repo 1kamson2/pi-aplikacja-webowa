@@ -33,7 +33,7 @@
     <ApplicationTitle>App</ApplicationTitle>
 
     <!-- App Identifier -->
-    <ApplicationId>com.companyname.app</ApplicationId>
+    <ApplicationId>projekt-inzynierski</ApplicationId>
 
     <!-- Versions -->
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>

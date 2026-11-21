@@ -68,7 +68,18 @@ public sealed partial class EncryptionWidget : BaseWidget<WidgetPayload>
             return;
         }
 
-        HistorySingleton.Add(encryptedImageMetadata);
-        HistogramSingleton.Add(encryptedImageMetadata);
+        if (!HistorySingleton.Add(encryptedImageMetadata))
+        {
+            NotificationsService.Error("Nie udało się dodać wpisu do historii.");
+            return;
+        }
+
+        if (!HistogramSingleton.Add(encryptedImageMetadata))
+        {
+            NotificationsService.Error("Nie udało się dodać wpisu do histogramu.");
+            return;
+        }
+
+        NotificationsService.Info("Obraz został zaszyfrowany.");
     }
 }

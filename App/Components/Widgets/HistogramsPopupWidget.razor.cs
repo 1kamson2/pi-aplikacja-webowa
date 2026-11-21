@@ -20,6 +20,12 @@ public partial class HistogramsPopupWidget : Widget
         }
     }
 
+    public void TryRemove(string hash)
+    {
+        if (HistogramSingleton.Remove(hash))
+            NotificationsService.Info("Usunięto histogram.");
+    }
+
     private static string Points(int[] values, int max)
     {
         double m = max == 0 ? 1 : max;

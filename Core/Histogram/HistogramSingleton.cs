@@ -136,7 +136,7 @@ public class HistogramSingleton : Singleton<HistogramSingleton>, ISingletonStore
         );
     }
 
-    public void Add(ImageMetadata entry)
+    public bool Add(ImageMetadata entry)
     {
         lock (_lock)
         {
@@ -146,17 +146,22 @@ public class HistogramSingleton : Singleton<HistogramSingleton>, ISingletonStore
             _entries.Insert(0, encodedEntry);
             Model.ExecuteInsert("InsertHistogram", entry);
         }
+        return true;
     }
 
-    public void Remove(string hash)
+    public bool Remove(string hash)
     {
         lock (_lock)
+        {
             _entries.RemoveAll(e => e.ImageHash == hash);
+            return Model.ExecuteDelete("DeleteHistogram", hash);
+        }
     }
 
-    public void Clear()
+    public bool Clear()
     {
         lock (_lock)
             _entries.Clear();
+        return true;
     }
 }
