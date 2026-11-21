@@ -1,5 +1,6 @@
 ﻿namespace Core.History;
 
+using Core.Services;
 using Core.Singleton;
 using Core.Utility;
 
@@ -25,7 +26,7 @@ public class HistorySingleton : Singleton<HistorySingleton>, ISingletonStore<Ima
         }
     }
 
-    public void Add(ImageMetadata entry)
+    public bool Add(ImageMetadata entry)
     {
         lock (_lock)
         {
@@ -36,22 +37,24 @@ public class HistorySingleton : Singleton<HistorySingleton>, ISingletonStore<Ima
             }
             Model.ExecuteInsert("InsertEncryptionHistory", entry);
         }
+        return true;
     }
 
-    public void Remove(string hash)
+    public bool Remove(string hash)
     {
         lock (_lock)
         {
             _entries.RemoveAll(e => e.ImageHash == hash);
+            return Model.ExecuteDelete("DeleteEncryptionHistory", hash);
         }
-        ;
     }
 
-    public void Clear()
+    public bool Clear()
     {
         lock (_lock)
         {
             _entries.Clear();
         }
+        return true;
     }
 }

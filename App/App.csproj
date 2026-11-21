@@ -33,7 +33,7 @@
     <ApplicationTitle>App</ApplicationTitle>
 
     <!-- App Identifier -->
-    <ApplicationId>com.companyname.app</ApplicationId>
+    <ApplicationId>projekt-inzynierski</ApplicationId>
 
     <!-- Versions -->
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -98,16 +98,16 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Core\Lib\chaotic-crypt-core-v0_1_0\libgcc_s_seh-1.dll">
+    <None Include="..\Core\Lib\chaotic-crypt-core-v0_2_0\libgcc_s_seh-1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\Core\Lib\chaotic-crypt-core-v0_1_0\libstdc++-6.dll">
+    <None Include="..\Core\Lib\chaotic-crypt-core-v0_2_0\libstdc++-6.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\Core\Lib\chaotic-crypt-core-v0_1_0\libwinpthread-1.dll">
+    <None Include="..\Core\Lib\chaotic-crypt-core-v0_2_0\libwinpthread-1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\Core\Lib\chaotic-crypt-core-v0_1_0\libimagecrypto.dll">
+    <None Include="..\Core\Lib\chaotic-crypt-core-v0_2_0\libimagecrypto.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

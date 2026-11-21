@@ -44,6 +44,7 @@ namespace App
             );
 #endif
             builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddSingleton(new AppRepository());
             builder.Services.AddSingleton<AlgorithmSingleton>();
             builder.Services.AddSingleton<HistogramSingleton>();
             builder.Services.AddSingleton<HistorySingleton>();

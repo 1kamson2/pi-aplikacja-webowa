@@ -1,4 +1,5 @@
 ﻿namespace Core.Singleton;
+
 /// <summary>
 /// Storage for singleton
 /// </summary>
@@ -6,7 +7,7 @@
 public interface ISingletonStore<TEntries>
 {
     public ushort MaxEntries { get; }
-    public abstract void Add(TEntries entry);
-    public abstract void Remove(string hash);
-    public abstract void Clear();
+    public abstract bool Add(TEntries entry);
+    public abstract bool Remove(string hash);
+    public abstract bool Clear();
 }

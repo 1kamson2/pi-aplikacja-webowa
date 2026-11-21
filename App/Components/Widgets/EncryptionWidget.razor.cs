@@ -32,11 +32,23 @@ public sealed partial class EncryptionWidget : BaseWidget<WidgetPayload>
     {
         if (!HasContent())
         {
-            NotificationsService.Error("Brak obrazu do szyfrowania.", "Wybierz obraz, który chcesz zaszyfrować.");
+            NotificationsService.Error(
+                "Brak obrazu do szyfrowania.",
+                "Wybierz obraz, który chcesz zaszyfrować."
+            );
             return;
         }
         FileMetadata fileMetadata = DragAndDropWidget.FileMetadata!;
-        ImageMetadata encryptedImageMetadata = PngProcessor.Encrypt(fileMetadata);
+        if (AlgorithmSingleton.SelectedAlgorithm is null)
+        {
+            NotificationsService.Error("Nie wybrano algortymu.");
+            return;
+        }
+
+        ImageMetadata encryptedImageMetadata = PngProcessor.Encrypt(
+            fileMetadata,
+            AlgorithmSingleton.SelectedAlgorithm.Id
+        );
         FileMetadata encryptedFiledata = new FileMetadata.FileMetadataBuilder()
             .FromImageMetadata(encryptedImageMetadata)
             .Build();
@@ -56,7 +68,18 @@ public sealed partial class EncryptionWidget : BaseWidget<WidgetPayload>
             return;
         }
 
-        HistorySingleton.Add(encryptedImageMetadata);
-        HistogramSingleton.Add(encryptedImageMetadata);
+        if (!HistorySingleton.Add(encryptedImageMetadata))
+        {
+            NotificationsService.Error("Nie udało się dodać wpisu do historii.");
+            return;
+        }
+
+        if (!HistogramSingleton.Add(encryptedImageMetadata))
+        {
+            NotificationsService.Error("Nie udało się dodać wpisu do histogramu.");
+            return;
+        }
+
+        NotificationsService.Info("Obraz został zaszyfrowany.");
     }
 }
