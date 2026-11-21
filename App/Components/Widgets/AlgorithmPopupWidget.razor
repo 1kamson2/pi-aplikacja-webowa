@@ -34,12 +34,12 @@
                     </div>
 
                     <div class="algorithm-description-text">
-                        <span>@entry.Description</span>
+                        <span>@Display.TrimString(@entry.Description, 32)</span>
                     </div>
 
                     <div class="algorithm-card-footer">
                         <div class="widget-meta">
-                            <strong>@entry.Name</strong>
+                            <strong>@Display.TrimString(@entry.Name, 32)</strong>
                         </div>
                     </div>
 
@@ -51,7 +51,7 @@
     @if (HasContent())
     {
         <div class="widget-footer">
-            <button class="widget-btn widget-remove file-remove-inline" @onclick="AlgorithmSingleton.Clear">Wyczyść algorytmy</button>
+            <button class="widget-btn widget-remove file-remove-inline" @onclick="() => AlgorithmSingleton.Clear()">Wyczyść algorytmy</button>
         </div>
     }
 </div>

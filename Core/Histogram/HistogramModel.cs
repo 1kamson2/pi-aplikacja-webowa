@@ -134,8 +134,21 @@ public class HistogramModel : IDatabaseAccess<ImageMetadata>
         return new();
     }
 
-    public List<ImageMetadata> ExecuteDelete(string sqlKey)
+    public bool ExecuteDelete(string sqlKey, string key)
     {
-        return new();
+        using var connection = new SqliteConnection(AppRepository.ConnString);
+        connection.Open();
+
+        SqlQueryMetadata queryMetadata = Queries[sqlKey];
+        using var command = connection.CreateCommand();
+        command.CommandText = queryMetadata.Sql;
+        command.Parameters.Add(
+            new SqliteParameter("@image_hash", SqliteType.Text)
+            {
+                Value = (object?)key ?? DBNull.Value,
+            }
+        );
+
+        return command.ExecuteNonQuery() > 0;
     }
 }

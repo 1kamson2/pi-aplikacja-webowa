@@ -6,6 +6,5 @@ internal interface IDatabaseAccess<T>
 {
     public T ExecuteInsert(string sqlKey, T entity);
     public List<T> ExecuteSelect(string sqlKey);
-    public List<T> ExecuteUpdate(string sqlKey);
-    public List<T> ExecuteDelete(string sqlKey);
+    public bool ExecuteDelete(string sqlKey, string key);
 }

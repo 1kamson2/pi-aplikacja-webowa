@@ -44,20 +44,23 @@ public sealed class AlgorithmSingleton
             SelectedAlgorithm = _entries.FirstOrDefault(e => e.Name == name);
     }
 
-    public void Add(AlgorithmEntry entry)
+    public bool Add(AlgorithmEntry entry)
     {
         lock (_lock)
             _entries.Add(entry);
+        return true;
     }
 
-    public void Remove(string hash)
+    public bool Remove(string hash)
     {
-        return;
+        lock (_lock)
+            return _entries.RemoveAll(e => e.Name == hash) > 0;
     }
 
-    public void Clear()
+    public bool Clear()
     {
         lock (_lock)
             _entries.Clear();
+        return true;
     }
 }

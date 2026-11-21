@@ -81,11 +81,11 @@
 
                     <div class="histogram-card-footer">
                         <div class="widget-meta">
-                            <strong title="@entry.Filename">@entry.Filename</strong>
+                            <strong title="@entry.Filename">@Display.TrimString(@entry.Filename, 32)</strong>
                             <small>Źródło: @entry.Source</small>
                             <small class="entropy-label">Entropia: @histogramCounts.Entropy.ToString("F4") bit</small>
                         </div>
-                        <button class="widget-btn widget-remove file-remove-inline" title="Usuń" @onclick="() => HistogramSingleton.Remove(entry.ImageHash)" @onclick:stopPropagation="true">
+                        <button class="widget-btn widget-remove file-remove-inline" title="Usuń" @onclick="() => TryRemove(entry.ImageHash)" @onclick:stopPropagation="true">
                             <span>✕</span>
                         </button>
                     </div>
@@ -97,7 +97,7 @@
     @if (HasContent())
     {
         <div class="widget-footer">
-            <button class="widget-btn widget-remove file-remove-inline" @onclick="HistogramSingleton.Clear">Wyczyść histogramy</button>
+            <button class="widget-btn widget-remove file-remove-inline" @onclick="() => HistogramSingleton.Clear()">Wyczyść histogramy</button>
         </div>
     }
 </div>
