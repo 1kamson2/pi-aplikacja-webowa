@@ -9,6 +9,9 @@ using Core.Image.Processing;
 using Core.Services;
 using Core.Utility;
 using Microsoft.Extensions.Logging;
+#if WINDOWS
+using Microsoft.AspNetCore.Components.WebView.Maui;
+#endif
 
 namespace App
 {
@@ -50,6 +53,13 @@ namespace App
             builder.Services.AddSingleton<HistorySingleton>();
             builder.Services.AddSingleton<PngProcessor>();
             builder.Services.AddScoped<NotificationsService>();
+
+#if WINDOWS
+            BlazorWebViewHandler.BlazorWebViewMapper.AppendToMapping("AllowDrop", (handler, view) =>
+            {
+                handler.PlatformView.AllowDrop = true;
+            });
+#endif
 
             return builder.Build();
         }
