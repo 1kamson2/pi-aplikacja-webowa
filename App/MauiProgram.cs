@@ -55,10 +55,13 @@ namespace App
             builder.Services.AddScoped<NotificationsService>();
 
 #if WINDOWS
-            BlazorWebViewHandler.BlazorWebViewMapper.AppendToMapping("AllowDrop", (handler, view) =>
-            {
-                handler.PlatformView.AllowDrop = true;
-            });
+            BlazorWebViewHandler.BlazorWebViewMapper.AppendToMapping(
+                "AllowDrop",
+                (handler, view) =>
+                {
+                    handler.PlatformView.AllowDrop = true;
+                }
+            );
 #endif
 
             return builder.Build();

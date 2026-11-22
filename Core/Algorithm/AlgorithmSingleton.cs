@@ -17,7 +17,11 @@ public sealed class AlgorithmSingleton
     public ushort MaxEntries { get; } = ushort.MaxValue;
     private readonly List<AlgorithmEntry> _entries = new()
     {
-        new AlgorithmEntry("Chaotic Circular Shifts", "Algorytm opracowany na podstawie pracy: Exploiting Circular Shifts for Efficient Chaotic\r\nImage Encryption", AlgorithmId.ChaoticCircularShifts),
+        new AlgorithmEntry(
+            "Chaotic Circular Shifts",
+            "Algorytm opracowany na podstawie pracy: Exploiting Circular Shifts for Efficient Chaotic\r\nImage Encryption",
+            AlgorithmId.ChaoticCircularShifts
+        ),
         new AlgorithmEntry("LTS", "Algortym autorski", AlgorithmId.LTS),
     };
     public AlgorithmEntry? SelectedAlgorithm { get; private set; }
