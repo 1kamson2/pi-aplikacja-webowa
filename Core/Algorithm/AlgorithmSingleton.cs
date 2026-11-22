@@ -4,8 +4,8 @@ using Core.Singleton;
 
 public enum AlgorithmId : int
 {
-    Algorithm1 = 1,
-    Algorithm2 = 2,
+    ChaoticCircularShifts = 1,
+    LTS = 2,
 }
 
 public record AlgorithmEntry(string Name, string Description, AlgorithmId Id);
@@ -17,8 +17,8 @@ public sealed class AlgorithmSingleton
     public ushort MaxEntries { get; } = ushort.MaxValue;
     private readonly List<AlgorithmEntry> _entries = new()
     {
-        new AlgorithmEntry("Algorytm 1", "Opis algorytmu 1", AlgorithmId.Algorithm1),
-        new AlgorithmEntry("Algorytm 2", "Opis algorytmu 2", AlgorithmId.Algorithm2),
+        new AlgorithmEntry("Chaotic Circular Shifts", "Algorytm opracowany na podstawie pracy: Exploiting Circular Shifts for Efficient Chaotic\r\nImage Encryption", AlgorithmId.ChaoticCircularShifts),
+        new AlgorithmEntry("LTS", "Algortym autorski", AlgorithmId.LTS),
     };
     public AlgorithmEntry? SelectedAlgorithm { get; private set; }
 

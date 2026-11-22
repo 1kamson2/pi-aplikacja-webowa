@@ -30,7 +30,7 @@ public abstract class ImageProcessor<TSelf>
         ImageCryptoBindings.CryptoStatus status;
         switch (algorithmId)
         {
-            case AlgorithmId.Algorithm1:
+            case AlgorithmId.ChaoticCircularShifts:
                 status = ImageCryptoBindings.Encrypt_1(
                     encryptedPixels,
                     new UIntPtr((ulong)encryptedPixels.Length),
@@ -40,7 +40,7 @@ public abstract class ImageProcessor<TSelf>
                     key.Value
                 );
                 break;
-            case AlgorithmId.Algorithm2:
+            case AlgorithmId.LTS:
                 status = ImageCryptoBindings.Encrypt_2(
                     encryptedPixels,
                     new UIntPtr((ulong)encryptedPixels.Length),
@@ -97,7 +97,7 @@ public abstract class ImageProcessor<TSelf>
         ImageCryptoBindings.CryptoStatus status;
         switch (algorithmId)
         {
-            case AlgorithmId.Algorithm1:
+            case AlgorithmId.ChaoticCircularShifts:
                 status = ImageCryptoBindings.Decrypt_1(
                     imgPixels,
                     new UIntPtr((ulong)imgPixels.Length),
@@ -107,7 +107,7 @@ public abstract class ImageProcessor<TSelf>
                     key.Value
                 );
                 break;
-            case AlgorithmId.Algorithm2:
+            case AlgorithmId.LTS:
                 status = ImageCryptoBindings.Decrypt_2(
                     imgPixels,
                     new UIntPtr((ulong)imgPixels.Length),
