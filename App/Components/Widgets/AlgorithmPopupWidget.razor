@@ -29,29 +29,22 @@
                 <div class="widget-inner-item algorithm-card @(selected ? "selected" : "")" @key="entry.Name" title="@entry.Description" @onclick="() => AlgorithmSingleton.SelectAlgorithm(entry.Name)">
                     <div class="algorithm-card-header-content">
                         <div class="algorithm-icon-badge">
-                            <svg class="alg-lock-icon" viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            <svg class="alg-lock-icon" viewBox="0 0 24 24" width="64" height="64" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                         </div>
                     </div>
 
                     <div class="algorithm-description-text">
-                        <span>@Display.TrimString(@entry.Description, 32)</span>
+                        <span>@entry.Description</span>
                     </div>
 
                     <div class="algorithm-card-footer">
                         <div class="widget-meta">
-                            <strong>@Display.TrimString(@entry.Name, 32)</strong>
+                            <strong>@entry.Name</strong>
                         </div>
                     </div>
 
                 </div>
             }
-        </div>
-    }
-
-    @if (HasContent())
-    {
-        <div class="widget-footer">
-            <button class="widget-btn widget-remove file-remove-inline" @onclick="() => AlgorithmSingleton.Clear()">Wyczyść algorytmy</button>
         </div>
     }
 </div>
