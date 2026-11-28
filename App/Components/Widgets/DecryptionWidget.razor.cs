@@ -39,7 +39,7 @@ public sealed partial class DecryptionWidget : BaseWidget<WidgetPayload>
             return;
         }
 
-        ImageMetadata imageMetadata = PngProcessor.Decrypt(
+        ImageMetadata imageMetadata = ImageProcessor.Decrypt(
             DragAndDropWidget.FileMetadata,
             DragAndDropWidget.ImageMetadata.Key.Value!,
             AlgorithmSingleton.SelectedAlgorithm.Id!

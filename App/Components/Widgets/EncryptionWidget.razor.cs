@@ -45,7 +45,7 @@ public sealed partial class EncryptionWidget : BaseWidget<WidgetPayload>
             return;
         }
 
-        ImageMetadata encryptedImageMetadata = PngProcessor.Encrypt(
+        ImageMetadata encryptedImageMetadata = ImageProcessor.Encrypt(
             fileMetadata,
             AlgorithmSingleton.SelectedAlgorithm.Id
         );

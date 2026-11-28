@@ -51,7 +51,7 @@ namespace App
             builder.Services.AddSingleton<AlgorithmSingleton>();
             builder.Services.AddSingleton<HistogramSingleton>();
             builder.Services.AddSingleton<HistorySingleton>();
-            builder.Services.AddSingleton<PngProcessor>();
+            builder.Services.AddSingleton<ImageProcessor>();
             builder.Services.AddScoped<NotificationsService>();
 
 #if WINDOWS

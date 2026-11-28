@@ -1,17 +1,30 @@
 ﻿using Core.Algorithm;
 using Core.Utility;
+using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using ImageSharp = SixLabors.ImageSharp.Image;
 
 namespace Core.Image.Processing;
 
-public abstract class ImageProcessor<TSelf>
-    where TSelf : ImageProcessor<TSelf>, new()
+public class ImageProcessor
 {
-    public abstract byte[] ImageSignature { get; }
-    public abstract ImageFormat HasCorrectSignature(ReadOnlySpan<byte> bytes);
-    public abstract ImageDimensions GetDimensions(ReadOnlySpan<byte> bytes);
+    public ImageFormat HasCorrectSignature(ReadOnlySpan<byte> bytes)
+    {
+        IImageFormat format = ImageSharp.DetectFormat(bytes);
+        return format.Name switch
+        {
+            "PNG" => ImageFormat.Png,
+            "JPEG" => ImageFormat.Jpg,
+            _ => ImageFormat.Unknown,
+        };
+    }
+
+    public ImageDimensions GetDimensions(ReadOnlySpan<byte> bytes)
+    {
+        var information = ImageSharp.Identify(bytes);
+        return new ImageDimensions((uint)information.Width, (uint)information.Height);
+    }
 
     public virtual ImageMetadata Encrypt(FileMetadata fileMetadata, AlgorithmId algorithmId)
     {
