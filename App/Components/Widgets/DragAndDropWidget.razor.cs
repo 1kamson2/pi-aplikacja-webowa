@@ -123,7 +123,10 @@ public partial class DragAndDropWidget : Widget
         }
         catch (Exception ex) when (ex is ArgumentException or InvalidDataException)
         {
-            NotificationsService.Error($"Nieobsługiwany typ obrazu.", "Obsługiwane typy to PNG");
+            NotificationsService.Error(
+                $"Nieobsługiwany typ obrazu.",
+                "Obsługiwane typy to PNG i JPG"
+            );
             Debug.WriteLine(ex.Message);
         }
         catch (IOException ex)

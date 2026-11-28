@@ -33,7 +33,6 @@ public class ImageProcessor
         {
             throw new ArgumentException("Invalid image signature.");
         }
-
         DecryptionKey key = new DecryptionKey(new double[10]);
         using var img = ImageSharp.Load<Rgba32>(fileMetadata.FiledataBlob);
         byte[] imgPixels = new byte[img.Width * img.Height * 4];
