@@ -45,10 +45,25 @@ public sealed partial class EncryptionWidget : BaseWidget<WidgetPayload>
             return;
         }
 
-        ImageMetadata encryptedImageMetadata = PngProcessor.Encrypt(
-            fileMetadata,
-            AlgorithmSingleton.SelectedAlgorithm.Id
-        );
+        ImageMetadata encryptedImageMetadata;
+        try
+        {
+            encryptedImageMetadata = ImageProcessor.Encrypt(
+                fileMetadata,
+                AlgorithmSingleton.SelectedAlgorithm.Id
+            );
+        }
+        catch (ArgumentException ex)
+        {
+            NotificationsService.Error(ex.Message);
+            return;
+        }
+        catch (Exception)
+        {
+            NotificationsService.Error("Obraz ma nieprawidłowy format.");
+            return;
+        }
+
         FileMetadata encryptedFiledata = new FileMetadata.FileMetadataBuilder()
             .FromImageMetadata(encryptedImageMetadata)
             .Build();

@@ -4,7 +4,7 @@
 
 <div class="drag-drop-layout @(HasContent() ? "has-active-image" : "")">
     <div @oncontextmenu="OnFileDeleted" @oncontextmenu:preventDefault @onwheel="OnWheel" class="widget drag-and-drop-zone @(HasContent() ? "has-image" : "")">
-        <InputFile OnChange="OnFileSelected" accept=".png,image/png" class="drop-input" />
+        <InputFile OnChange="OnFileSelected" accept=".png,image/png,.jpg,image/jpeg" class="drop-input" />
 
         @if (HasContent())
         {

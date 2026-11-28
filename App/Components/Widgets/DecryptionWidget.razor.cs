@@ -38,12 +38,26 @@ public sealed partial class DecryptionWidget : BaseWidget<WidgetPayload>
             NotificationsService.Error("Nie wybrano algortymu.");
             return;
         }
+        ImageMetadata imageMetadata;
+        try
+        {
+            imageMetadata = ImageProcessor.Decrypt(
+                DragAndDropWidget.FileMetadata,
+                DragAndDropWidget.ImageMetadata.Key.Value!,
+                AlgorithmSingleton.SelectedAlgorithm.Id!
+            );
+        }
+        catch (ArgumentException ex)
+        {
+            NotificationsService.Error(ex.Message);
+            return;
+        }
+        catch (Exception)
+        {
+            NotificationsService.Error("Obraz ma nieprawidłowy format.");
+            return;
+        }
 
-        ImageMetadata imageMetadata = PngProcessor.Decrypt(
-            DragAndDropWidget.FileMetadata,
-            DragAndDropWidget.ImageMetadata.Key.Value!,
-            AlgorithmSingleton.SelectedAlgorithm.Id!
-        );
         bool successFiledata = DragAndDropWidget.ChangeFileMetadata(
             new FileMetadata.FileMetadataBuilder().FromImageMetadata(imageMetadata).Build()
         );
